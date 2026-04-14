@@ -3,122 +3,123 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Login Design Options</title>
+<title>Login Background Options</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#111;color:#fff}
+body{font-family:Inter,-apple-system,sans-serif;background:#000}
 .nav{position:sticky;top:0;z-index:100;display:flex;background:#000;border-bottom:1px solid #333}
 .nav button{flex:1;padding:16px;border:none;font-size:13px;font-weight:600;cursor:pointer;color:#888;background:#000;border-bottom:3px solid transparent;font-family:Inter,sans-serif;transition:all .2s}
 .nav button.active{color:#fff;border-bottom-color:#7C5CFC}
 .nav button:hover{color:#ccc}
-.mockup{display:none;height:calc(100vh - 53px);overflow:hidden;position:relative}
-.mockup.active{display:flex}
+.mockup{display:none;height:calc(100vh - 53px);position:relative;overflow:hidden}
+.mockup.active{display:flex;align-items:center;justify-content:center}
 
-/* ====== OPTION 1: STRIPE CLONE ====== */
-/* Stripe's login: white/light page with animated gradient canvas behind everything.
-   Card is borderless, centered. Very minimal. The gradient is a full-bleed
-   WebGL canvas showing soft flowing colors. */
-#opt1{align-items:center;justify-content:center;background:#f6f9fc;position:relative}
-/* The canvas would go here — we simulate with CSS gradient animation */
-#opt1 .stripe-bg{position:absolute;inset:0;background:linear-gradient(135deg,
-  #e0e7ff 0%, #f0e6ff 15%, #e8f4f8 30%, #fce4ec 50%,
-  #e8eaf6 65%, #f3e5f5 80%, #e0f2f1 100%);
-  background-size:400% 400%;animation:stripeFlow 12s ease infinite;opacity:0.7}
-@keyframes stripeFlow{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-/* Stripe also has a noise texture overlay */
-#opt1 .stripe-noise{position:absolute;inset:0;opacity:0.03;
-  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size:200px}
-#opt1 .stripe-card{position:relative;z-index:1;width:400px;max-width:90%;text-align:center}
-#opt1 .stripe-logo{margin-bottom:28px}
-#opt1 .stripe-logo svg{width:40px;height:40px}
-#opt1 .stripe-title{font-size:16px;font-weight:600;color:#3c4257;margin-bottom:24px}
-#opt1 .stripe-field{margin-bottom:12px;text-align:left}
-#opt1 .stripe-field label{display:block;font-size:13px;font-weight:500;color:#3c4257;margin-bottom:4px}
-#opt1 .stripe-field input{width:100%;padding:10px 12px;border:1px solid #e0e6ed;border-radius:6px;font-size:14px;font-family:inherit;outline:none;background:#fff;color:#1a1a2e;box-shadow:0 1px 2px rgba(0,0,0,0.04);transition:border-color .15s,box-shadow .15s}
-#opt1 .stripe-field input:focus{border-color:#635bff;box-shadow:0 0 0 3px rgba(99,91,255,0.12),0 1px 2px rgba(0,0,0,0.04)}
-#opt1 .stripe-field input::placeholder{color:#8898aa}
-#opt1 .stripe-btn{width:100%;padding:10px;border:none;border-radius:6px;background:#635bff;color:#fff;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;margin-top:4px;transition:all .15s;box-shadow:0 1px 3px rgba(99,91,255,0.3)}
-#opt1 .stripe-btn:hover{background:#5750e0;box-shadow:0 4px 12px rgba(99,91,255,0.3)}
-#opt1 .stripe-footer{margin-top:24px;font-size:11px;color:#8898aa}
-#opt1 .stripe-footer a{color:#635bff;text-decoration:none}
+/* Shared card styles */
+.card{background:#fff;border-radius:8px;padding:40px;width:420px;max-width:90%;box-shadow:0 15px 35px rgba(0,0,0,0.07),0 5px 15px rgba(0,0,0,0.04);text-align:left;position:relative;z-index:2;animation:cardIn .5s ease-out}
+@keyframes cardIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.card .app-title{font-size:22px;font-weight:700;color:#101828;margin-bottom:4px;letter-spacing:-0.3px}
+.card .app-sub{font-size:14px;color:#697386;margin-bottom:24px}
+.card .field{margin-bottom:16px;text-align:left}
+.card .field label{display:block;font-size:14px;font-weight:500;color:#3c4257;margin-bottom:6px}
+.card .field input{width:100%;padding:10px 12px;border:1px solid #d8dee4;border-radius:6px;font-size:15px;font-family:inherit;outline:none;background:#fff;color:#1a1a2e;box-shadow:0 1px 1px rgba(0,0,0,0.03)}
+.card .field input:focus{border-color:#7C5CFC;box-shadow:0 0 0 3px rgba(124,92,252,0.1)}
+.card .field input::placeholder{color:#8898aa}
+.card .remember{display:flex;align-items:center;gap:8px;margin:12px 0 16px;font-size:13px;color:#3c4257}
+.card .remember input{width:16px;height:16px;accent-color:#7C5CFC}
+.card .btn{width:100%;padding:10px;border:none;border-radius:6px;background:linear-gradient(180deg,#9b8afb,#7C5CFC);color:#fff;font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;box-shadow:0 2px 5px rgba(124,92,252,0.25)}
+.card .btn:hover{filter:brightness(1.05)}
+.brand{position:absolute;top:28px;left:36px;z-index:3;font-size:18px;font-weight:700;color:#0D1B2A;letter-spacing:0.3px}
 
-/* ====== OPTION 2: VERCEL / LINEAR MINIMAL ====== */
-/* Pure white, no decoration, bold title, borderless card.
-   Extreme minimalism. Black button. Tiny footer. */
-#opt2{align-items:center;justify-content:center;background:#fff;flex-direction:column}
-#opt2 .v-logo{position:absolute;top:24px;left:32px}
-#opt2 .v-logo span{font-size:13px;font-weight:700;color:#000;letter-spacing:1px;text-transform:uppercase}
-#opt2 .v-card{width:400px;max-width:90%;text-align:center}
-#opt2 .v-title{font-size:28px;font-weight:700;color:#000;margin-bottom:32px;letter-spacing:-0.5px}
-#opt2 .v-field{margin-bottom:16px;text-align:left}
-#opt2 .v-field label{display:block;font-size:14px;font-weight:500;color:#111;margin-bottom:6px}
-#opt2 .v-field input{width:100%;padding:12px 14px;border:1px solid #eaeaea;border-radius:8px;font-size:15px;font-family:inherit;outline:none;background:#fafafa;color:#111;transition:border-color .15s}
-#opt2 .v-field input:focus{border-color:#000;background:#fff}
-#opt2 .v-field input::placeholder{color:#999}
-#opt2 .v-btn{width:100%;padding:12px;border:none;border-radius:8px;background:#000;color:#fff;font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;margin-top:8px;transition:background .15s}
-#opt2 .v-btn:hover{background:#333}
-#opt2 .v-footer{margin-top:32px;font-size:12px;color:#999}
-#opt2 .v-secure{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);font-size:10px;color:#bbb;text-align:center;white-space:nowrap}
+/* ====== A: FLOATING MESH ORBS ====== */
+#optA{background:#f8f9fc}
+#optA .orb{position:absolute;border-radius:50%;filter:blur(80px);animation:orbA 20s ease-in-out infinite}
+#optA .orb:nth-child(1){width:500px;height:500px;background:rgba(124,92,252,0.25);top:-10%;right:5%;animation-delay:0s}
+#optA .orb:nth-child(2){width:400px;height:400px;background:rgba(59,130,246,0.2);bottom:-5%;left:10%;animation-delay:-7s;animation-duration:25s}
+#optA .orb:nth-child(3){width:350px;height:350px;background:rgba(236,72,153,0.15);top:30%;left:60%;animation-delay:-14s;animation-duration:22s}
+#optA .orb:nth-child(4){width:300px;height:300px;background:rgba(245,158,11,0.12);bottom:20%;right:30%;animation-delay:-4s;animation-duration:28s}
+@keyframes orbA{0%,100%{transform:translate(0,0) scale(1)}25%{transform:translate(40px,-50px) scale(1.1)}50%{transform:translate(-30px,40px) scale(0.95)}75%{transform:translate(50px,20px) scale(1.05)}}
+#optA .brand{color:#0D1B2A}
+
+/* ====== B: GEOMETRIC GRID WITH GLOW ====== */
+#optB{background:#0D1B2A}
+#optB .grid-bg{position:absolute;inset:0;background-image:
+  linear-gradient(rgba(124,92,252,0.08) 1px,transparent 1px),
+  linear-gradient(90deg,rgba(124,92,252,0.08) 1px,transparent 1px);
+  background-size:60px 60px;animation:gridShift 30s linear infinite}
+@keyframes gridShift{0%{transform:translate(0,0)}100%{transform:translate(60px,60px)}}
+#optB .glow{position:absolute;border-radius:50%;filter:blur(120px);animation:glowPulse 8s ease-in-out infinite}
+#optB .glow:nth-child(2){width:600px;height:600px;background:rgba(124,92,252,0.2);top:10%;right:10%;animation-delay:0s}
+#optB .glow:nth-child(3){width:400px;height:400px;background:rgba(59,130,246,0.15);bottom:10%;left:15%;animation-delay:-4s}
+@keyframes glowPulse{0%,100%{opacity:0.6;transform:scale(1)}50%{opacity:1;transform:scale(1.15)}}
+#optB .brand{color:rgba(255,255,255,0.8)}
+#optB .card{background:rgba(255,255,255,0.95);backdrop-filter:blur(20px)}
+
+/* ====== C: AURORA WAVES ====== */
+#optC{background:#0a0a1a}
+#optC .aurora{position:absolute;bottom:0;left:-20%;width:140%;height:60%;opacity:0.7}
+#optC .aurora-band{position:absolute;bottom:0;width:100%;filter:blur(60px);animation:auroraWave 12s ease-in-out infinite}
+#optC .aurora-band:nth-child(1){height:200px;background:linear-gradient(90deg,transparent 10%,rgba(124,92,252,0.5) 30%,rgba(59,130,246,0.4) 50%,rgba(16,185,129,0.3) 70%,transparent 90%);animation-delay:0s}
+#optC .aurora-band:nth-child(2){height:160px;bottom:40px;background:linear-gradient(90deg,transparent 15%,rgba(236,72,153,0.4) 35%,rgba(124,92,252,0.5) 55%,rgba(59,130,246,0.3) 75%,transparent 90%);animation-delay:-4s;animation-duration:15s}
+#optC .aurora-band:nth-child(3){height:120px;bottom:80px;background:linear-gradient(90deg,transparent 20%,rgba(245,158,11,0.3) 40%,rgba(236,72,153,0.4) 60%,rgba(124,92,252,0.3) 80%,transparent 95%);animation-delay:-8s;animation-duration:18s}
+@keyframes auroraWave{0%,100%{transform:translateX(0) scaleY(1)}25%{transform:translateX(3%) scaleY(1.2)}50%{transform:translateX(-2%) scaleY(0.8)}75%{transform:translateX(2%) scaleY(1.1)}}
+#optC .stars{position:absolute;inset:0;background:radial-gradient(1px 1px at 10% 20%,rgba(255,255,255,0.4),transparent),radial-gradient(1px 1px at 30% 60%,rgba(255,255,255,0.3),transparent),radial-gradient(1px 1px at 50% 10%,rgba(255,255,255,0.5),transparent),radial-gradient(1px 1px at 70% 40%,rgba(255,255,255,0.3),transparent),radial-gradient(1px 1px at 90% 70%,rgba(255,255,255,0.4),transparent),radial-gradient(1px 1px at 15% 80%,rgba(255,255,255,0.3),transparent),radial-gradient(1px 1px at 60% 90%,rgba(255,255,255,0.2),transparent),radial-gradient(1px 1px at 80% 15%,rgba(255,255,255,0.4),transparent),radial-gradient(1.5px 1.5px at 25% 45%,rgba(255,255,255,0.5),transparent),radial-gradient(1.5px 1.5px at 85% 55%,rgba(255,255,255,0.3),transparent)}
+#optC .brand{color:rgba(255,255,255,0.7)}
+#optC .card{background:rgba(255,255,255,0.95);backdrop-filter:blur(20px)}
+#optC .card .app-title{color:#101828}
 </style>
 </head>
 <body>
 
 <div class="nav">
-  <button class="active" onclick="show('1')">1 — Stripe Clone</button>
-  <button onclick="show('2')">2 — Vercel / Linear Minimal</button>
+  <button class="active" onclick="show('A')">A — Floating Mesh Orbs</button>
+  <button onclick="show('B')">B — Geometric Grid + Glow</button>
+  <button onclick="show('C')">C — Aurora Waves</button>
 </div>
 
-<!-- OPTION 1: STRIPE CLONE -->
-<div class="mockup active" id="opt1">
-  <div class="stripe-bg"></div>
-  <div class="stripe-noise"></div>
-  <div class="stripe-card">
-    <div class="stripe-logo">
-      <!-- Simple Ergon mark -->
-      <div style="width:44px;height:44px;background:#635bff;border-radius:10px;margin:0 auto;display:flex;align-items:center;justify-content:center">
-        <span style="color:#fff;font-weight:700;font-size:18px;letter-spacing:1px">E</span>
-      </div>
-    </div>
-    <div class="stripe-title">Sign in to Ergon Corporate Development</div>
-    <div class="stripe-field">
-      <label>Email</label>
-      <input type="email" placeholder="name@ergon.com">
-    </div>
-    <div class="stripe-field">
-      <label>Password</label>
-      <input type="password" placeholder="Enter your password">
-    </div>
-    <button class="stripe-btn">Continue</button>
-    <div class="stripe-footer">
-      U.S. Propane Market Map<br>
-      <span style="font-size:10px;color:#aab7c4">Confidential &bull; Ergon, Inc. &mdash; Jackson, Mississippi</span>
-    </div>
+<!-- A: Floating Mesh Orbs on light background -->
+<div class="mockup active" id="optA">
+  <div class="orb"></div><div class="orb"></div><div class="orb"></div><div class="orb"></div>
+  <div class="brand">Ergon Corporate Development</div>
+  <div class="card">
+    <div class="app-title">U.S. Propane Market Map</div>
+    <div class="app-sub">Sign in to your account</div>
+    <div class="field"><label>Email</label><input type="email" placeholder="name@ergon.com"></div>
+    <div class="field"><label>Password</label><input type="password"></div>
+    <label class="remember"><input type="checkbox" checked> Remember me on this device</label>
+    <button class="btn">Sign in</button>
   </div>
 </div>
 
-<!-- OPTION 2: VERCEL / LINEAR MINIMAL -->
-<div class="mockup" id="opt2">
-  <div class="v-logo">
-    <span>Ergon</span>
+<!-- B: Geometric Grid with Glow -->
+<div class="mockup" id="optB">
+  <div class="grid-bg"></div><div class="glow"></div><div class="glow"></div>
+  <div class="brand">Ergon Corporate Development</div>
+  <div class="card">
+    <div class="app-title">U.S. Propane Market Map</div>
+    <div class="app-sub">Sign in to your account</div>
+    <div class="field"><label>Email</label><input type="email" placeholder="name@ergon.com"></div>
+    <div class="field"><label>Password</label><input type="password"></div>
+    <label class="remember"><input type="checkbox" checked> Remember me on this device</label>
+    <button class="btn">Sign in</button>
   </div>
-  <div class="v-card">
-    <div class="v-title">Log in to your account</div>
-    <div class="v-field">
-      <label>Email Address</label>
-      <input type="email" placeholder="name@ergon.com">
-    </div>
-    <div class="v-field">
-      <label>Password</label>
-      <input type="password" placeholder="">
-    </div>
-    <button class="v-btn">Continue</button>
-    <div class="v-footer">
-      U.S. Propane Market Map
-    </div>
+</div>
+
+<!-- C: Aurora Waves -->
+<div class="mockup" id="optC">
+  <div class="stars"></div>
+  <div class="aurora">
+    <div class="aurora-band"></div><div class="aurora-band"></div><div class="aurora-band"></div>
   </div>
-  <div class="v-secure">Confidential &bull; Authorized Personnel Only &bull; Ergon, Inc. &mdash; Jackson, Mississippi</div>
+  <div class="brand">Ergon Corporate Development</div>
+  <div class="card">
+    <div class="app-title">U.S. Propane Market Map</div>
+    <div class="app-sub">Sign in to your account</div>
+    <div class="field"><label>Email</label><input type="email" placeholder="name@ergon.com"></div>
+    <div class="field"><label>Password</label><input type="password"></div>
+    <label class="remember"><input type="checkbox" checked> Remember me on this device</label>
+    <button class="btn">Sign in</button>
+  </div>
 </div>
 
 <script>
@@ -126,7 +127,7 @@ function show(id){
   document.querySelectorAll('.mockup').forEach(m=>m.classList.remove('active'));
   document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
   document.getElementById('opt'+id).classList.add('active');
-  document.querySelectorAll('.nav button')[id==='1'?0:1].classList.add('active');
+  document.querySelectorAll('.nav button')[{A:0,B:1,C:2}[id]].classList.add('active');
 }
 </script>
 </body>
