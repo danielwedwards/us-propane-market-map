@@ -286,7 +286,7 @@ table.lt td:nth-child(4){text-align:left}
 .pp-add{display:block;width:100%;padding:10px;margin-bottom:16px;border:2px dashed var(--brand);border-radius:var(--radius-md);background:var(--brand-muted);color:var(--brand);font-size:12px;font-weight:600;font-family:inherit;cursor:pointer;text-align:center;transition:all var(--tr)}
 .pp-add:hover{background:var(--gold);color:var(--navy)}
 .pp-add.added{background:#FFEBEE;border-color:var(--red);color:var(--red)}
-.pf-bar{position:fixed;bottom:0;left:0;right:0;z-index:1500;background:var(--white);border-top:1px solid var(--border);box-shadow:0 -4px 20px rgba(16,24,40,0.08);display:none}
+.pf-bar{position:fixed;bottom:0;left:240px;right:0;z-index:1500;background:var(--white);border-top:1px solid var(--border);box-shadow:0 -4px 20px rgba(16,24,40,0.08);display:none;transition:left var(--tr)}
 .pf-bar.active{display:block}
 .pf-summary{padding:10px 20px;display:flex;align-items:center;gap:16px;cursor:pointer;background:#101828;color:var(--white);font-size:12px;font-family:var(--font-sans)}
 .pf-title{font-family:var(--font-sans);font-size:14px;font-weight:600}
@@ -364,43 +364,38 @@ table.lt td:nth-child(4){text-align:left}
 [data-theme="dark"] .share-box h3{color:#e0e4ea}
 [data-theme="dark"] .share-box input,[data-theme="dark"] .share-box textarea{background:#1a2534;color:#e0e0e0;border-color:#2a3a4e}
 [data-theme="dark"] .email-opt{background:#1a2534;color:#a0aabb;border-color:#2a3a4e}
-/* === STRIPE-CLONE LOGIN: Animated mesh gradient background === */
-.login-overlay{position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;background:#1a1a2e;overflow:hidden}
-/* Animated mesh gradient blobs */
-.login-overlay::before{content:'';position:absolute;width:150%;height:150%;top:-25%;left:-25%;background:
-  radial-gradient(circle at 20% 80%, #7C5CFC 0%, transparent 40%),
-  radial-gradient(circle at 80% 20%, #5B3FD1 0%, transparent 40%),
-  radial-gradient(circle at 40% 40%, #3B82F6 0%, transparent 35%),
-  radial-gradient(circle at 70% 60%, #8B5CF6 0%, transparent 35%),
-  radial-gradient(circle at 50% 90%, #6366F1 0%, transparent 30%);
-  filter:blur(80px);opacity:0.6;animation:meshMove 20s ease-in-out infinite alternate;pointer-events:none}
-@keyframes meshMove{0%{transform:translate(0,0) rotate(0deg)}33%{transform:translate(3%,-3%) rotate(2deg)}66%{transform:translate(-2%,2%) rotate(-1deg)}100%{transform:translate(1%,-1%) rotate(1deg)}}
-.login-overlay::after{content:'';position:absolute;width:120%;height:120%;top:-10%;left:-10%;background:
-  radial-gradient(circle at 60% 30%, #4F46E5 0%, transparent 30%),
-  radial-gradient(circle at 30% 70%, #7C3AED 0%, transparent 30%);
-  filter:blur(100px);opacity:0.4;animation:meshMove2 25s ease-in-out infinite alternate;pointer-events:none}
-@keyframes meshMove2{0%{transform:translate(0,0) rotate(0deg)}50%{transform:translate(-4%,3%) rotate(-2deg)}100%{transform:translate(2%,-2%) rotate(1deg)}}
-/* Login card — Stripe style */
-.login-box{background:rgba(255,255,255,0.95);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-radius:12px;padding:40px;width:380px;max-width:90%;box-shadow:0 15px 50px rgba(0,0,0,0.25);text-align:left;position:relative;z-index:1;animation:loginIn 0.5s cubic-bezier(0.16,1,0.3,1)}
-@keyframes loginIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+/* === STRIPE LOGIN CLONE: White bg + animated gradient mesh === */
+.login-overlay{position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;background:#fff;overflow:hidden}
+/* Stripe-style animated gradient blobs on white background */
+.login-overlay .login-mesh{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.login-overlay .login-mesh .blob{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.35;animation:blobFloat 20s ease-in-out infinite}
+.login-overlay .login-mesh .blob:nth-child(1){width:600px;height:600px;background:#7C5CFC;top:-10%;right:-5%;animation-delay:0s}
+.login-overlay .login-mesh .blob:nth-child(2){width:500px;height:500px;background:#3B82F6;bottom:-15%;left:-10%;animation-delay:-5s;animation-duration:25s}
+.login-overlay .login-mesh .blob:nth-child(3){width:400px;height:400px;background:#8B5CF6;top:40%;right:30%;animation-delay:-10s;animation-duration:22s;opacity:0.2}
+.login-overlay .login-mesh .blob:nth-child(4){width:350px;height:350px;background:#6366F1;bottom:10%;right:50%;animation-delay:-15s;animation-duration:28s;opacity:0.15}
+@keyframes blobFloat{0%,100%{transform:translate(0,0) scale(1)}25%{transform:translate(30px,-40px) scale(1.05)}50%{transform:translate(-20px,30px) scale(0.95)}75%{transform:translate(40px,20px) scale(1.02)}}
+.login-overlay::before,.login-overlay::after{content:none}
+/* Login card */
+.login-box{background:#fff;border-radius:8px;padding:40px;width:400px;max-width:90%;box-shadow:0 15px 35px rgba(0,0,0,0.08),0 5px 15px rgba(0,0,0,0.04);text-align:left;position:relative;z-index:1;animation:loginIn 0.5s cubic-bezier(0.16,1,0.3,1);border:1px solid rgba(0,0,0,0.06)}
+@keyframes loginIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
 .login-box::before{content:none}
-.login-brand{margin-bottom:24px;text-align:center}
-.login-brand .login-logo-text{font-family:var(--font-sans);font-size:15px;font-weight:700;color:#101828;letter-spacing:1px;text-transform:uppercase}
-.login-brand .corp-dev{font-family:var(--font-sans);font-size:10px;font-weight:500;color:#98A2B3;letter-spacing:0.5px;text-transform:uppercase;margin-top:2px}
+.login-brand{margin-bottom:32px;text-align:center}
+.login-brand .login-logo-text{font-family:var(--font-sans);font-size:13px;font-weight:700;color:#101828;letter-spacing:1.5px;text-transform:uppercase}
+.login-brand .corp-dev{font-family:var(--font-sans);font-size:10px;font-weight:500;color:#98A2B3;letter-spacing:0.5px;text-transform:uppercase;margin-top:3px}
 .login-brand .divider{display:none}
-.login-box .tagline{font-size:22px;color:#101828;margin-bottom:8px;font-weight:600;font-family:var(--font-sans);text-align:left}
-.login-box .tagline+.lfield{margin-top:24px}
+.login-box .tagline{font-size:24px;color:#101828;margin-bottom:4px;font-weight:600;font-family:var(--font-sans);text-align:center}
+.login-box .tagline+.lfield{margin-top:28px}
 .login-box .lfield{margin-bottom:16px;text-align:left}
 .login-box .lfield label{display:block;font-size:13px;font-weight:500;color:#344054;margin-bottom:6px}
 .login-box .lfield input{width:100%;padding:10px 12px;border:1px solid #D0D5DD;border-radius:6px;font-size:15px;font-family:inherit;outline:none;transition:border-color .15s,box-shadow .15s;background:#fff;color:#101828}
-.login-box .lfield input:focus{border-color:#7C5CFC;box-shadow:0 0 0 3px rgba(124,92,252,0.15),0 1px 2px rgba(0,0,0,0.05)}
+.login-box .lfield input:focus{border-color:#7C5CFC;box-shadow:0 0 0 3px rgba(124,92,252,0.12),0 1px 2px rgba(0,0,0,0.05)}
 .login-box .lfield input::placeholder{color:#98A2B3}
 .login-box .lbtn{width:100%;padding:10px;border:none;border-radius:6px;background:#7C5CFC;color:#fff;font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;transition:all .15s;margin-top:4px}
-.login-box .lbtn:hover{background:#6941C6;box-shadow:0 1px 3px rgba(0,0,0,0.1),0 4px 12px rgba(124,92,252,0.2)}
-.login-box .lbtn:active{transform:scale(0.995);box-shadow:none}
+.login-box .lbtn:hover{background:#6941C6;box-shadow:0 4px 12px rgba(124,92,252,0.25)}
+.login-box .lbtn:active{transform:scale(0.995)}
 .login-box .lbtn:disabled{opacity:0.5;cursor:not-allowed;transform:none}
-.login-box .lerr{color:#D92D20;font-size:12px;margin-top:10px;min-height:16px;font-weight:500}
-.login-box .lfooter{font-size:9px;color:#98A2B3;margin-top:20px;letter-spacing:0.3px;line-height:1.8;text-align:center}
+.login-box .lerr{color:#D92D20;font-size:13px;margin-top:10px;min-height:16px;font-weight:500}
+.login-box .lfooter{font-size:9px;color:#98A2B3;margin-top:24px;letter-spacing:0.3px;line-height:1.8;text-align:center}
 .login-box .lfooter .lock{font-size:12px;display:block;margin-bottom:3px;opacity:0.3}
 /* Loading overlay */
 .loading-overlay{position:fixed;inset:0;z-index:9998;background:var(--light-bg);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;transition:opacity .4s}
@@ -575,7 +570,9 @@ table.lt td{padding:var(--space-sm) var(--space-sm);min-height:var(--touch-min)}
 .tippy-box[data-theme~='propane']{background:var(--navy);color:#fff;font-size:11px;border-radius:var(--radius-md);box-shadow:var(--shadow-lg)}
 .tippy-box[data-theme~='propane'] .tippy-arrow{color:var(--navy)}
 /* === SPRINT I: Charts dashboard view === */
-.charts-wrap{display:none;flex:1;overflow-y:auto;padding:20px;background:var(--light-bg)}
+.charts-wrap{display:none;flex:1;overflow-y:auto;padding:24px;background:var(--light-bg)}
+.charts-wrap h3{font-family:var(--font-sans)!important;font-size:13px!important;font-weight:600!important;color:var(--text-secondary)!important;letter-spacing:0.02em!important;text-transform:none!important;margin-bottom:16px!important}
+.charts-wrap>div>div{border-radius:var(--radius-lg)!important;border:1px solid var(--border)!important;box-shadow:none!important}
 .main.view-charts{overflow:auto!important;flex:1 1 auto!important;min-height:0!important}
 .main.view-charts .left,.main.view-charts .rh,.main.view-charts .map-wrap{display:none!important}
 .main.view-charts .charts-wrap{display:block!important}
@@ -620,12 +617,13 @@ table.lt td{padding:var(--space-sm) var(--space-sm);min-height:var(--touch-min)}
 <a href="#mainArea" class="skip-link" style="position:absolute;top:-40px;left:0;background:var(--gold);color:var(--navy);padding:8px 16px;z-index:99999;font-size:13px;font-weight:600;transition:top .2s" onfocus="this.style.top='0'" onblur="this.style.top='-40px'">Skip to main content</a>
 <!-- === PRODUCT SPRINT C: Premium login screen with Ergon logo === -->
 <div class="login-overlay" id="loginOverlay" role="dialog" aria-modal="true" aria-label="Sign in to U.S. Propane Market Map">
+<div class="login-mesh"><div class="blob"></div><div class="blob"></div><div class="blob"></div><div class="blob"></div></div>
 <div class="login-box">
 <div class="login-brand">
-<div class="login-logo-text">ERGON</div>
-<div class="corp-dev">Corporate Development</div>
+<div class="login-logo-text">Ergon Corporate Development</div>
+<div class="corp-dev">U.S. Propane Market Map</div>
 </div>
-<div class="tagline">Sign in to your account</div>
+<div class="tagline">Sign in</div>
 <div class="lfield"><label>Email Address</label><input type="email" id="loginEmail" placeholder="name@ergon.com" autocomplete="email"></div>
 <div class="lfield"><label>Password</label><input type="password" id="loginPass" autocomplete="current-password" placeholder="Enter your password" onkeydown="if(event.key==='Enter')doLogin()"></div>
 <button class="lbtn" id="loginBtn" onclick="doLogin()">Sign In &rarr;</button>
@@ -712,7 +710,7 @@ table.lt td{padding:var(--space-sm) var(--space-sm);min-height:var(--touch-min)}
 <!-- ========== MODERN SAAS HEADER ========== -->
 <div class="header">
 <div class="header-left">
-<h1 style="font-family:var(--font-sans);font-size:13px;font-weight:700;letter-spacing:1.5px">ERGON CORPORATE DEVELOPMENT</h1>
+<h1 style="font-family:var(--font-sans);font-size:12px;font-weight:700;letter-spacing:1.2px">ERGON CORPORATE DEVELOPMENT</h1>
 <div class="sep"></div>
 <span class="sub" style="font-weight:500">U.S. Propane Market Map</span>
 </div>
@@ -1507,7 +1505,7 @@ function render(){try{
 
 // === MAP ===
 function initMap(){
-  map=L.map('map',{center:CONFIG.CENTER,zoom:CONFIG.ZOOM,preferCanvas:true});
+  map=L.map('map',{center:CONFIG.CENTER,zoom:CONFIG.ZOOM,preferCanvas:true,renderer:L.canvas({tolerance:10})});
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'&copy; OSM &copy; CARTO',maxZoom:19}).addTo(map);
   mcg=L.layerGroup();map.addLayer(mcg); /* Individual pins by default. Use Cluster Pins button to enable clustering. */
   [{n:'MS',la:32.7,lo:-89.7},{n:'AL',la:32.8,lo:-86.8},{n:'LA',la:31,lo:-92},{n:'TN',la:35.8,lo:-86.4},{n:'AR',la:34.8,lo:-92.4},{n:'GA',la:32.7,lo:-83.5},{n:'SC',la:33.9,lo:-80.9},{n:'NC',la:35.5,lo:-79.8},{n:'VA',la:37.5,lo:-79},{n:'FL',la:28.5,lo:-82.5},{n:'KY',la:37.8,lo:-85.7}]
@@ -1557,8 +1555,7 @@ function buildMarkerCache(){
         fillOpacity:isLL?1:0.8,
         opacity:0.9,
         interactive:true,
-        bubblingMouseEvents:false,
-        pane:isLL?'markerPane':'overlayPane'
+        bubblingMouseEvents:false
       });
       mk.bindPopup('<div class="mp"><h3>'+esc(c.name)+'</h3><div class="sub">'+esc(l.name||c.name)+' &mdash; '+esc(l.city||'')+', '+esc(l.state||'')+'</div><button class="vf" onclick="op(\''+c.id+'\')">View Full Profile &rarr;</button></div>',{maxWidth:280,minWidth:200,autoClose:true,closeOnClick:true});
       mk.bindTooltip('<b>'+esc(c.name)+'</b><br>'+esc(l.city||'')+', '+esc(l.state||''),{direction:'top',className:'propane-tip',opacity:0.95});
@@ -1903,14 +1900,14 @@ function op(id){try{
 
     // === Scoring & Ranking ===
     '<div class="ps"><h3>Scoring &amp; Ranking</h3><div class="pg" style="grid-template-columns:repeat(3,1fr)">'+
-    '<div class="pst"><div class="l">Proximity</div><div class="v '+scoreCls(ps)+'">'+ps+'</div><div class="n">Platform distance</div></div>'+
-    '<div class="pst"><div class="l">County Market</div><div class="v '+scoreCls(cys)+'">'+cys+'</div><div class="n">Market quality</div></div>'+
-    '<div class="pst" style="border-left-color:var(--green)"><div class="l">Total Score</div><div class="v '+scoreCls(ts)+'" style="font-size:20px">'+ts+'</div><div class="n">Combined rank</div></div>'+
+    '<div class="pst" style="cursor:pointer" onclick="showScoreTip(event,\''+c.id+'\',\'prox\')"><div class="l">Proximity</div><div class="v '+scoreCls(ps)+'">'+ps+'</div><div class="n">Click for breakdown</div></div>'+
+    '<div class="pst" style="cursor:pointer" onclick="showScoreTip(event,\''+c.id+'\',\'county\')"><div class="l">County Market</div><div class="v '+scoreCls(cys)+'">'+cys+'</div><div class="n">Click for breakdown</div></div>'+
+    '<div class="pst" style="cursor:pointer" onclick="showScoreTip(event,\''+c.id+'\',\'total\')"><div class="l">Total Score</div><div class="v '+scoreCls(ts)+'" style="font-size:20px">'+ts+'</div><div class="n">Click for breakdown</div></div>'+
     '</div></div>'+
 
     // === Market Presence ===
     '<div class="ps"><h3>Market Presence</h3><div class="pg">'+
-    '<div class="pst"><div class="l">Market Share</div><div class="v" style="color:var(--blue)">'+ms.se+'%</div><div class="n">'+(ms.locs||0)+' of '+(ms.totalLocs||0)+' locations'+(stateFilter.size>0?' in '+[...stateFilter].join(', '):' (SE)')+'</div></div>'+
+    '<div class="pst"><div class="l">'+(stateFilter.size>0?'Filtered Market Share':'National Market Share')+'</div><div class="v" style="color:var(--brand)">'+ms.se+'%</div><div class="n">'+(ms.locs||0)+' of '+(ms.totalLocs||0)+' locations'+(stateFilter.size>0?' in '+[...stateFilter].join(', '):' nationwide')+'</div></div>'+
     '<div class="pst"><div class="l">Locations'+(stateFilter.size>0?' (Filtered)':'')+'</div><div class="v">'+(stateFilter.size>0?(ms.locs||c.locations.length):c.locations.length)+'</div><div class="n">'+(stateFilter.size>0?'In '+[...stateFilter].join(', '):'Nationwide total')+'</div></div>'+
     '<div class="pst"><div class="l">Total Locations</div><div class="v">'+c.locations.length+'</div><div class="n">All branches nationwide</div></div>'+
     '<div class="pst"><div class="l">States</div><div class="v">'+c.states.length+'</div><div class="n">Operating footprint</div></div>'+
