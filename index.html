@@ -288,7 +288,7 @@ table.lt td:nth-child(4){text-align:left}
 .pp-add.added{background:#FFEBEE;border-color:var(--red);color:var(--red)}
 .pf-bar{position:fixed;bottom:0;left:0;right:0;z-index:1500;background:var(--white);border-top:1px solid var(--border);box-shadow:0 -4px 20px rgba(16,24,40,0.08);display:none}
 .pf-bar.active{display:block}
-.pf-summary{padding:8px 20px;display:flex;align-items:center;gap:16px;cursor:pointer;background:var(--navy);color:var(--white);font-size:12px}
+.pf-summary{padding:10px 20px;display:flex;align-items:center;gap:16px;cursor:pointer;background:#101828;color:var(--white);font-size:12px;font-family:var(--font-sans)}
 .pf-title{font-family:var(--font-sans);font-size:14px;font-weight:600}
 .pf-stats{color:var(--gold);font-size:11px;flex:1}
 .pf-expand{color:var(--gold);font-size:14px;transition:transform 0.3s}
@@ -296,7 +296,7 @@ table.lt td:nth-child(4){text-align:left}
 .pf-body{padding:16px 20px;display:none;max-height:280px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
 .pf-bar.expanded .pf-body{display:block}
 .pf-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
-.pf-metric{background:var(--light-bg);padding:10px;border-radius:var(--radius);border-left:3px solid var(--gold)}
+.pf-metric{background:#F9FAFB;padding:12px;border-radius:var(--radius-md);border-left:none}
 .pf-metric .l{font-size:9px;text-transform:uppercase;letter-spacing:0.5px;color:var(--slate)}.pf-metric .v{font-size:18px;font-weight:700;color:var(--navy)}.pf-metric .n{font-size:9px;color:var(--slate)}
 .pf-acqs{display:flex;flex-wrap:wrap;gap:8px}
 .pf-acq{display:flex;align-items:center;gap:6px;padding:5px 10px;background:var(--blue-light);border-radius:var(--radius);font-size:11px;color:var(--blue);font-weight:500}
@@ -306,7 +306,7 @@ table.lt td:nth-child(4){text-align:left}
 .pf-share .st{font-size:10px;font-weight:700;color:var(--navy)}.pf-share .pct{font-size:14px;font-weight:700;color:var(--green)}
 /* Save/Share/Login */
 .pf-actions{display:flex;gap:6px;margin-left:auto}
-.pf-act{padding:5px 12px;border:1px solid rgba(255,255,255,0.2);border-radius:4px;background:transparent;color:var(--gold);font-size:10px;font-family:inherit;cursor:pointer;display:flex;align-items:center;gap:4px;transition:all var(--tr)}
+.pf-act{padding:5px 12px;border:1px solid rgba(255,255,255,0.2);border-radius:var(--radius-sm);background:transparent;color:#A78BFA;font-size:10px;font-family:inherit;cursor:pointer;display:flex;align-items:center;gap:4px;transition:all var(--tr)}
 .pf-act:hover{background:rgba(200,169,81,0.2);border-color:var(--gold)}
 .pf-act svg{width:12px;height:12px}
 .pf-bar.fullscreen{position:fixed;top:0;left:0;right:0;bottom:0;z-index:3000;display:flex!important;flex-direction:column;border-top:none;box-shadow:none;background:var(--white)}
@@ -364,31 +364,44 @@ table.lt td:nth-child(4){text-align:left}
 [data-theme="dark"] .share-box h3{color:#e0e4ea}
 [data-theme="dark"] .share-box input,[data-theme="dark"] .share-box textarea{background:#1a2534;color:#e0e0e0;border-color:#2a3a4e}
 [data-theme="dark"] .email-opt{background:#1a2534;color:#a0aabb;border-color:#2a3a4e}
-/* === STRIPE-INSPIRED LOGIN WITH ANIMATED GRADIENT === */
-.login-overlay{position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;background:linear-gradient(-45deg,#0D1B2A,#1a1040,#2d1b69,#0D1B2A,#1b3a4b,#0f2027);background-size:400% 400%;animation:loginGrad 15s ease infinite}
-@keyframes loginGrad{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
-.login-overlay::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 20%,rgba(124,92,252,0.15),transparent 50%),radial-gradient(ellipse at 70% 80%,rgba(91,63,209,0.1),transparent 50%);pointer-events:none}
-.login-overlay::after{content:none}
-.login-box{background:rgba(255,255,255,0.97);backdrop-filter:blur(20px);border-radius:16px;padding:48px 44px 40px;width:400px;max-width:92%;box-shadow:0 24px 80px rgba(0,0,0,0.3),0 0 0 1px rgba(255,255,255,0.1);text-align:center;position:relative;animation:loginIn 0.6s cubic-bezier(0.16,1,0.3,1)}
-@keyframes loginIn{from{opacity:0;transform:translateY(20px) scale(0.98)}to{opacity:1;transform:none}}
+/* === STRIPE-CLONE LOGIN: Animated mesh gradient background === */
+.login-overlay{position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;background:#1a1a2e;overflow:hidden}
+/* Animated mesh gradient blobs */
+.login-overlay::before{content:'';position:absolute;width:150%;height:150%;top:-25%;left:-25%;background:
+  radial-gradient(circle at 20% 80%, #7C5CFC 0%, transparent 40%),
+  radial-gradient(circle at 80% 20%, #5B3FD1 0%, transparent 40%),
+  radial-gradient(circle at 40% 40%, #3B82F6 0%, transparent 35%),
+  radial-gradient(circle at 70% 60%, #8B5CF6 0%, transparent 35%),
+  radial-gradient(circle at 50% 90%, #6366F1 0%, transparent 30%);
+  filter:blur(80px);opacity:0.6;animation:meshMove 20s ease-in-out infinite alternate;pointer-events:none}
+@keyframes meshMove{0%{transform:translate(0,0) rotate(0deg)}33%{transform:translate(3%,-3%) rotate(2deg)}66%{transform:translate(-2%,2%) rotate(-1deg)}100%{transform:translate(1%,-1%) rotate(1deg)}}
+.login-overlay::after{content:'';position:absolute;width:120%;height:120%;top:-10%;left:-10%;background:
+  radial-gradient(circle at 60% 30%, #4F46E5 0%, transparent 30%),
+  radial-gradient(circle at 30% 70%, #7C3AED 0%, transparent 30%);
+  filter:blur(100px);opacity:0.4;animation:meshMove2 25s ease-in-out infinite alternate;pointer-events:none}
+@keyframes meshMove2{0%{transform:translate(0,0) rotate(0deg)}50%{transform:translate(-4%,3%) rotate(-2deg)}100%{transform:translate(2%,-2%) rotate(1deg)}}
+/* Login card — Stripe style */
+.login-box{background:rgba(255,255,255,0.95);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border-radius:12px;padding:40px;width:380px;max-width:90%;box-shadow:0 15px 50px rgba(0,0,0,0.25);text-align:left;position:relative;z-index:1;animation:loginIn 0.5s cubic-bezier(0.16,1,0.3,1)}
+@keyframes loginIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 .login-box::before{content:none}
-.login-brand{margin-bottom:12px}
-.login-brand .login-logo-text{font-family:var(--font-sans);font-size:28px;font-weight:700;color:#101828;letter-spacing:-0.5px;text-align:center;margin-bottom:0;line-height:1.2}
-.login-brand .corp-dev{font-family:var(--font-sans);font-size:11px;font-weight:500;color:#98A2B3;letter-spacing:0.5px;text-transform:uppercase;margin-top:4px}
-.login-brand .divider{width:32px;height:2px;background:var(--brand);margin:20px auto;border-radius:2px}
-.login-box .tagline{font-size:14px;color:#475467;margin-bottom:32px;letter-spacing:0;font-weight:400;font-family:var(--font-sans)}
+.login-brand{margin-bottom:24px;text-align:center}
+.login-brand .login-logo-text{font-family:var(--font-sans);font-size:15px;font-weight:700;color:#101828;letter-spacing:1px;text-transform:uppercase}
+.login-brand .corp-dev{font-family:var(--font-sans);font-size:10px;font-weight:500;color:#98A2B3;letter-spacing:0.5px;text-transform:uppercase;margin-top:2px}
+.login-brand .divider{display:none}
+.login-box .tagline{font-size:22px;color:#101828;margin-bottom:8px;font-weight:600;font-family:var(--font-sans);text-align:left}
+.login-box .tagline+.lfield{margin-top:24px}
 .login-box .lfield{margin-bottom:16px;text-align:left}
-.login-box .lfield label{display:block;font-size:12px;font-weight:500;color:#344054;margin-bottom:6px}
-.login-box .lfield input{width:100%;padding:11px 14px;border:1px solid #D0D5DD;border-radius:8px;font-size:14px;font-family:inherit;outline:none;transition:all .2s;background:#fff;color:#101828}
-.login-box .lfield input:focus{border-color:var(--brand);box-shadow:0 0 0 4px rgba(124,92,252,0.12)}
+.login-box .lfield label{display:block;font-size:13px;font-weight:500;color:#344054;margin-bottom:6px}
+.login-box .lfield input{width:100%;padding:10px 12px;border:1px solid #D0D5DD;border-radius:6px;font-size:15px;font-family:inherit;outline:none;transition:border-color .15s,box-shadow .15s;background:#fff;color:#101828}
+.login-box .lfield input:focus{border-color:#7C5CFC;box-shadow:0 0 0 3px rgba(124,92,252,0.15),0 1px 2px rgba(0,0,0,0.05)}
 .login-box .lfield input::placeholder{color:#98A2B3}
-.login-box .lbtn{width:100%;padding:12px;border:none;border-radius:8px;background:var(--brand);color:#fff;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;letter-spacing:0.2px;transition:all .2s;margin-top:8px}
-.login-box .lbtn:hover{background:var(--brand-dark);box-shadow:0 4px 16px rgba(124,92,252,0.3);transform:translateY(-1px)}
-.login-box .lbtn:active{transform:translateY(0) scale(0.99)}
+.login-box .lbtn{width:100%;padding:10px;border:none;border-radius:6px;background:#7C5CFC;color:#fff;font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;transition:all .15s;margin-top:4px}
+.login-box .lbtn:hover{background:#6941C6;box-shadow:0 1px 3px rgba(0,0,0,0.1),0 4px 12px rgba(124,92,252,0.2)}
+.login-box .lbtn:active{transform:scale(0.995);box-shadow:none}
 .login-box .lbtn:disabled{opacity:0.5;cursor:not-allowed;transform:none}
 .login-box .lerr{color:#D92D20;font-size:12px;margin-top:10px;min-height:16px;font-weight:500}
-.login-box .lfooter{font-size:9px;color:#98A2B3;margin-top:24px;letter-spacing:0.3px;line-height:1.8}
-.login-box .lfooter .lock{font-size:13px;display:block;margin-bottom:4px;opacity:0.3}
+.login-box .lfooter{font-size:9px;color:#98A2B3;margin-top:20px;letter-spacing:0.3px;line-height:1.8;text-align:center}
+.login-box .lfooter .lock{font-size:12px;display:block;margin-bottom:3px;opacity:0.3}
 /* Loading overlay */
 .loading-overlay{position:fixed;inset:0;z-index:9998;background:var(--light-bg);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;transition:opacity .4s}
 .loading-overlay.hidden{opacity:0;pointer-events:none}
@@ -611,9 +624,8 @@ table.lt td{padding:var(--space-sm) var(--space-sm);min-height:var(--touch-min)}
 <div class="login-brand">
 <div class="login-logo-text">ERGON</div>
 <div class="corp-dev">Corporate Development</div>
-<div class="divider"></div>
 </div>
-<div class="tagline">U.S. Propane Market Map</div>
+<div class="tagline">Sign in to your account</div>
 <div class="lfield"><label>Email Address</label><input type="email" id="loginEmail" placeholder="name@ergon.com" autocomplete="email"></div>
 <div class="lfield"><label>Password</label><input type="password" id="loginPass" autocomplete="current-password" placeholder="Enter your password" onkeydown="if(event.key==='Enter')doLogin()"></div>
 <button class="lbtn" id="loginBtn" onclick="doLogin()">Sign In &rarr;</button>
@@ -700,9 +712,9 @@ table.lt td{padding:var(--space-sm) var(--space-sm);min-height:var(--touch-min)}
 <!-- ========== MODERN SAAS HEADER ========== -->
 <div class="header">
 <div class="header-left">
-<h1 style="font-family:var(--font-sans);font-size:15px;font-weight:700;letter-spacing:-0.3px">ERGON</h1>
+<h1 style="font-family:var(--font-sans);font-size:13px;font-weight:700;letter-spacing:1.5px">ERGON CORPORATE DEVELOPMENT</h1>
 <div class="sep"></div>
-<span class="sub">U.S. Propane Market Map</span>
+<span class="sub" style="font-weight:500">U.S. Propane Market Map</span>
 </div>
 <div class="header-stats">
 <span><b id="hc">0</b> Companies</span>
@@ -1555,35 +1567,26 @@ function buildMarkerCache(){
     });
     _markerCache[c.id]=mks;
   });
-  /* Add ALL markers to map ONCE — never removed/recreated */
-  if(mcg)map.removeLayer(mcg);
-  mcg=L.layerGroup(_allMarkers);
-  map.addLayer(mcg);
   _markerCacheBuilt=true;
+  /* Don't add to map here — updateMap() handles it */
 }
 
 function updateMap(){
   if(map)map.closePopup();
-  if(!_markerCacheBuilt){buildMarkerCache();return}
-  /* Build set of visible company IDs from current filters */
+  if(!_markerCacheBuilt)buildMarkerCache();
+  /* Remove old layer and build fresh one with only visible markers */
+  if(mcg)map.removeLayer(mcg);
   let companies=fil();
   let visIds=new Set(companies.map(c=>c.id));
   if(spotlight.size>0)visIds=new Set([...spotlight,LL_ID].filter(id=>visIds.has(id)));
   let hasSF=stateFilter.size>0;
-  /* Toggle visibility by style — no layer add/remove, ~15ms for 8822 markers */
+  let visible=[];
   for(let i=0,n=_allMarkers.length;i<n;i++){
     let mk=_allMarkers[i];
-    let show=visIds.has(mk._cid)&&(!hasSF||stateFilter.has(mk._st));
-    if(show){
-      mk.setStyle({fillColor:mk._col,fillOpacity:mk._isLL?1:0.8,opacity:0.9,
-        radius:mk._isLL?6:3.5,color:mk._isLL?'#FFFFFF':'rgba(255,255,255,0.6)',
-        weight:mk._isLL?2:0.5});
-      mk.setRadius(mk._isLL?6:3.5);
-    }else{
-      mk.setStyle({fillOpacity:0,opacity:0});
-      mk.setRadius(0);
-    }
+    if(visIds.has(mk._cid)&&(!hasSF||stateFilter.has(mk._st)))visible.push(mk);
   }
+  mcg=L.layerGroup(visible);
+  map.addLayer(mcg);
   // Update company color legend
   updateMapLegend(companies);
   // Update spotlight legend if companies are spotlighted
@@ -1593,7 +1596,7 @@ function updateMap(){
       spotLeg.style.display='block';
       spotLeg.innerHTML='<h4>Spotlighted Companies</h4>'+[...spotlight].map((id,i)=>{
         let c=DATA.find(x=>x.id===id);
-        return c?'<div class="li"><div class="d" style="background:'+CO_COLORS[i%CO_COLORS.length]+'"></div>'+esc(c.name)+' ('+c.seLocs+')</div>':'';
+        return c?'<div class="li"><div class="d" style="background:'+CO_COLORS[i%CO_COLORS.length]+'"></div>'+esc(c.name)+' ('+c.locations.length+')</div>':'';
       }).join('');
     } else {
       spotLeg.style.display='none';
@@ -1782,7 +1785,7 @@ function showRowPreview(e,companyId){
     let stateLocs={};c.locations.forEach(l=>{stateLocs[l.state]=(stateLocs[l.state]||0)+1});
     rowPreviewEl.innerHTML=
       '<div class="rp-name">'+esc(c.name)+'</div>'+
-      '<div class="rp-stat"><span class="rp-label">Locations</span><span class="rp-val">'+c.seLocs+'</span></div>'+
+      '<div class="rp-stat"><span class="rp-label">Locations</span><span class="rp-val">'+c.locations.length+'</span></div>'+
       '<div class="rp-stat"><span class="rp-label">Market Share</span><span class="rp-val" style="color:var(--blue)">'+ms.se+'%</span></div>'+
       '<div class="rp-stat"><span class="rp-label">Total Score</span><span class="rp-val '+scoreCls(ts)+'">'+ts+'</span></div>'+
       '<div class="rp-stat"><span class="rp-label">Coverage</span><span class="rp-val">'+Object.entries(stateLocs).map(([s,n])=>s+':'+n).join(' ')+'</span></div>'+
@@ -1839,7 +1842,7 @@ function op(id){try{
       ('<b>'+esc(c.name)+'</b> is a <b>'+OL[c.ownership].toLowerCase()+'</b> propane distributor'+
       (c.hqCity?' headquartered in <b>'+esc(c.hqCity)+', '+esc(c.hqState)+'</b>':'')+
       (founded?', founded in <b>'+founded+'</b> ('+age+' years in operation)':'')+
-      '. The company operates <b>'+c.seLocs+' branch location'+(c.seLocs>1?'s':'')+'</b> across <b>'+c.states.length+' state'+(c.states.length>1?'s':'')+'</b> ('+c.states.join(', ')+').'+
+      '. The company operates <b>'+c.locations.length+' branch location'+(c.locations.length>1?'s':'')+'</b> across <b>'+c.states.length+' state'+(c.states.length>1?'s':'')+'</b> ('+c.states.join(', ')+').'+
       (c.parentGroup&&c.parentGroup!==c.name?' It operates under the <b>'+esc(c.parentGroup)+'</b> parent organization.':'')))+
       '</div>'+
       /* Key metrics row */
@@ -1908,8 +1911,8 @@ function op(id){try{
     // === Market Presence ===
     '<div class="ps"><h3>Market Presence</h3><div class="pg">'+
     '<div class="pst"><div class="l">Market Share</div><div class="v" style="color:var(--blue)">'+ms.se+'%</div><div class="n">'+(ms.locs||0)+' of '+(ms.totalLocs||0)+' locations'+(stateFilter.size>0?' in '+[...stateFilter].join(', '):' (SE)')+'</div></div>'+
-    '<div class="pst"><div class="l">Locations'+(stateFilter.size>0?' (Filtered)':'')+'</div><div class="v">'+(ms.locs||c.seLocs)+'</div><div class="n">'+(stateFilter.size>0?'In '+[...stateFilter].join(', '):'SE total')+'</div></div>'+
-    '<div class="pst"><div class="l">Total SE Locations</div><div class="v">'+c.seLocs+'</div><div class="n">All SE branches</div></div>'+
+    '<div class="pst"><div class="l">Locations'+(stateFilter.size>0?' (Filtered)':'')+'</div><div class="v">'+(stateFilter.size>0?(ms.locs||c.locations.length):c.locations.length)+'</div><div class="n">'+(stateFilter.size>0?'In '+[...stateFilter].join(', '):'Nationwide total')+'</div></div>'+
+    '<div class="pst"><div class="l">Total Locations</div><div class="v">'+c.locations.length+'</div><div class="n">All branches nationwide</div></div>'+
     '<div class="pst"><div class="l">States</div><div class="v">'+c.states.length+'</div><div class="n">Operating footprint</div></div>'+
     '</div>'+
     // State-level market share breakdown
@@ -2174,7 +2177,7 @@ function exportCSV(){
   let companies=fil();
   if(companies.length===0){showToast('No data to export');return}
   /* === PRODUCT SPRINT: Enhanced CSV with research data === */
-  let rows=[['Rank','Company','Parent','HQ City','HQ State','Type','SE Locations','Proximity Score','County Score','Total Score','Est Revenue ($M)','Est Gallons (M)','Employees','Year Founded','Phone','States','Description']];
+  let rows=[['Rank','Company','Parent','HQ City','HQ State','Type','Locations','Proximity Score','County Score','Total Score','Est Revenue ($M)','Est Gallons (M)','Employees','Year Founded','Phone','States','Description']];
   companies.forEach((c,i)=>{
     rows.push([(i+1),'"'+c.name.replace(/"/g,'""')+'"','"'+(c.parentGroup||'').replace(/"/g,'""')+'"','"'+(c.hqCity||'')+'"',c.hqState||'',c.ownership,c.seLocs,proxScores[c.id]||0,countyScores[c.id]||0,totalScores[c.id]||0,c.estRevenue||'',c.estAnnualGallons||'',c.employeeCount||'',c.yearFounded||'','"'+(c.phone||'')+'"','"'+c.states.join(', ')+'"','"'+(c.description||'').replace(/"/g,'""')+'"']);
   });
