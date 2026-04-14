@@ -368,13 +368,12 @@ table.lt tbody tr.kb-sel{outline:2px solid var(--gold);outline-offset:-2px}
 /* === STRIPE LOGIN CLONE === */
 .login-overlay{position:fixed;inset:0;z-index:10000;background:#ffffff;overflow:hidden;display:flex;align-items:center;justify-content:center}
 .login-overlay::before,.login-overlay::after{content:none}
-/* Wave image — positioned to cover the page like Stripe */
-.login-wave-bg{position:absolute;inset:0;background:url('login-wave.webp') center center / cover no-repeat;z-index:0;animation:waveSlowDrift 60s ease-in-out infinite alternate}
-@keyframes waveSlowDrift{0%{transform:scale(1) translate(0,0)}50%{transform:scale(1.03) translate(-0.5%,0.3%)}100%{transform:scale(1) translate(0.3%,-0.5%)}}
+/* Wave image with visible color-shifting animation */
+.login-wave-bg{position:absolute;inset:-5%;width:110%;height:110%;background:url('login-wave.webp') center center / cover no-repeat;z-index:0;animation:waveMove 20s ease-in-out infinite alternate,waveColor 30s linear infinite}
+@keyframes waveMove{0%{transform:translate(0,0) scale(1)}25%{transform:translate(1%,-0.8%) scale(1.02)}50%{transform:translate(-0.5%,1%) scale(1.01)}75%{transform:translate(0.8%,0.5%) scale(1.03)}100%{transform:translate(-0.3%,-0.5%) scale(1)}}
+@keyframes waveColor{0%{filter:hue-rotate(0deg)}50%{filter:hue-rotate(25deg)}100%{filter:hue-rotate(0deg)}}
 /* Brand top-left */
 .login-corner-brand{position:absolute;top:28px;left:36px;z-index:2;font-family:var(--font-sans);font-size:14px;font-weight:700;color:#0D1B2A;letter-spacing:0.3px}
-/* Copyright bottom-left */
-.login-corner-copy{position:absolute;bottom:24px;left:36px;z-index:2;font-size:12px;color:#697386;font-family:var(--font-sans)}
 /* White card — centered like Stripe */
 .login-box{background:#fff;border-radius:8px;padding:40px;width:420px;max-width:90%;box-shadow:0 15px 35px rgba(0,0,0,0.07),0 5px 15px rgba(0,0,0,0.04);text-align:left;position:relative;z-index:1;animation:loginIn 0.6s cubic-bezier(0.16,1,0.3,1)}
 @keyframes loginIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
@@ -627,8 +626,6 @@ table.lt td{padding:var(--space-sm) var(--space-sm);min-height:var(--touch-min)}
 <button class="lbtn" id="loginBtn" onclick="doLogin()">Sign in</button>
 <div class="lerr" id="loginErr"></div>
 </div>
-<!-- Copyright bottom-left -->
-<div class="login-corner-copy">Confidential &bull; Ergon, Inc. &mdash; Jackson, Mississippi</div>
 </div>
 <!-- Help Modal -->
 <div class="help-modal" id="helpModal" role="dialog" aria-modal="true" aria-label="Scoring methodology and keyboard shortcuts" onclick="if(event.target===this)toggleHelp()">
