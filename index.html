@@ -365,18 +365,21 @@ table.lt tbody tr.kb-sel{outline:2px solid var(--gold);outline-offset:-2px}
 [data-theme="dark"] .share-box h3{color:#e0e4ea}
 [data-theme="dark"] .share-box input,[data-theme="dark"] .share-box textarea{background:#1a2534;color:#e0e0e0;border-color:#2a3a4e}
 [data-theme="dark"] .email-opt{background:#1a2534;color:#a0aabb;border-color:#2a3a4e}
-/* === STRIPE LOGIN CLONE === */
-.login-overlay{position:fixed;inset:0;z-index:10000;background:#f6f9fc;overflow:hidden;display:flex;align-items:center;justify-content:center}
+/* === STRIPE LOGIN CLONE — using actual Stripe wave image === */
+.login-overlay{position:fixed;inset:0;z-index:10000;background:#ffffff;overflow:hidden;display:flex;align-items:center;justify-content:center}
 .login-overlay::before,.login-overlay::after{content:none}
-/* Flowing ribbon SVG — bold, vivid, large like Stripe */
-.login-ribbons{position:absolute;top:-40%;right:-20%;width:100%;height:180%;pointer-events:none;z-index:0}
-.login-ribbons svg{width:100%;height:100%}
+/* Wave background — actual Stripe wave graphic */
+.login-wave-bg{position:absolute;inset:0;background:url('login-wave.webp') center center / cover no-repeat;opacity:0;animation:waveIn 1s ease-out 0.3s forwards;z-index:0}
+@keyframes waveIn{0%{opacity:0;transform:scale(1.05)}100%{opacity:1;transform:scale(1)}}
+/* Subtle slow drift animation on the wave */
+.login-wave-bg::after{content:'';position:absolute;inset:0;background:inherit;animation:waveDrift 30s ease-in-out infinite alternate}
+@keyframes waveDrift{0%{transform:translate(0,0) scale(1)}50%{transform:translate(-0.5%,0.3%) scale(1.01)}100%{transform:translate(0.3%,-0.5%) scale(1)}}
 /* Brand top-left */
 .login-corner-brand{position:absolute;top:28px;left:36px;z-index:2;font-family:var(--font-sans);font-size:14px;font-weight:700;color:#0D1B2A;letter-spacing:0.3px}
 /* Copyright bottom-left */
-.login-corner-copy{position:absolute;bottom:24px;left:36px;z-index:2;font-size:12px;color:#8898aa;font-family:var(--font-sans)}
-/* White card — Stripe positions it centered with ribbons behind */
-.login-box{background:#fff;border-radius:12px;padding:40px 44px;width:440px;max-width:90%;box-shadow:0 15px 60px rgba(0,0,0,0.06),0 2px 8px rgba(0,0,0,0.04),0 0 0 1px rgba(0,0,0,0.03);text-align:left;position:relative;z-index:1;animation:loginIn 0.6s cubic-bezier(0.16,1,0.3,1)}
+.login-corner-copy{position:absolute;bottom:24px;left:36px;z-index:2;font-size:12px;color:#697386;font-family:var(--font-sans)}
+/* White card — centered like Stripe */
+.login-box{background:#fff;border-radius:8px;padding:40px;width:420px;max-width:90%;box-shadow:0 15px 35px rgba(0,0,0,0.07),0 5px 15px rgba(0,0,0,0.04);text-align:left;position:relative;z-index:1;animation:loginIn 0.6s cubic-bezier(0.16,1,0.3,1)}
 @keyframes loginIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 .login-box::before{content:none}
 .login-brand{display:none}
@@ -613,38 +616,16 @@ table.lt td{padding:var(--space-sm) var(--space-sm);min-height:var(--touch-min)}
 <a href="#mainArea" class="skip-link" style="position:absolute;top:-40px;left:0;background:var(--gold);color:var(--navy);padding:8px 16px;z-index:99999;font-size:13px;font-weight:600;transition:top .2s" onfocus="this.style.top='0'" onblur="this.style.top='-40px'">Skip to main content</a>
 <!-- === PRODUCT SPRINT C: Premium login screen with Ergon logo === -->
 <div class="login-overlay" id="loginOverlay" role="dialog" aria-modal="true" aria-label="Sign in to U.S. Propane Market Map">
-<!-- Stripe-style flowing ribbon gradients -->
-<div class="login-ribbons">
-<svg viewBox="0 0 1200 1200" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-<defs>
-<linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#f59e0b"/><stop offset="25%" stop-color="#f97316"/><stop offset="50%" stop-color="#ef4444"/><stop offset="75%" stop-color="#ec4899"/><stop offset="100%" stop-color="#a855f7"/></linearGradient>
-<linearGradient id="g2" x1="0%" y1="0%" x2="80%" y2="100%"><stop offset="0%" stop-color="#fbbf24"/><stop offset="30%" stop-color="#fb923c"/><stop offset="60%" stop-color="#f472b6"/><stop offset="100%" stop-color="#c084fc"/></linearGradient>
-<linearGradient id="g3" x1="20%" y1="0%" x2="80%" y2="100%"><stop offset="0%" stop-color="#ec4899"/><stop offset="40%" stop-color="#d946ef"/><stop offset="70%" stop-color="#a855f7"/><stop offset="100%" stop-color="#818cf8"/></linearGradient>
-<linearGradient id="g4" x1="0%" y1="0%" x2="100%" y2="80%"><stop offset="0%" stop-color="#f97316"/><stop offset="50%" stop-color="#ec4899"/><stop offset="100%" stop-color="#8b5cf6"/></linearGradient>
-<linearGradient id="g5" x1="0%" y1="50%" x2="100%" y2="50%"><stop offset="0%" stop-color="#c084fc"/><stop offset="50%" stop-color="#818cf8"/><stop offset="100%" stop-color="#6366f1"/></linearGradient>
-</defs>
-<!-- Thick bold ribbons sweeping from top-center to bottom-right -->
-<path d="M200,-100 C350,50 300,250 400,400 S550,650 500,850 S350,1100 500,1300" fill="none" stroke="url(#g1)" stroke-width="200" stroke-linecap="round" opacity="0.85">
-<animateTransform attributeName="transform" type="translate" values="0,0;20,-15;-10,20;0,0" dur="16s" repeatCount="indefinite"/></path>
-<path d="M350,-200 C500,0 450,200 550,350 S700,550 650,750 S500,1000 650,1200" fill="none" stroke="url(#g2)" stroke-width="180" stroke-linecap="round" opacity="0.75">
-<animateTransform attributeName="transform" type="translate" values="0,0;-15,25;12,-18;0,0" dur="20s" repeatCount="indefinite"/></path>
-<path d="M500,-150 C400,100 500,300 450,500 S350,700 450,900 S600,1100 500,1350" fill="none" stroke="url(#g3)" stroke-width="160" stroke-linecap="round" opacity="0.7">
-<animateTransform attributeName="transform" type="translate" values="0,0;25,-10;-18,15;0,0" dur="22s" repeatCount="indefinite"/></path>
-<path d="M100,0 C300,100 250,350 350,500 S500,700 450,900 S300,1150 450,1300" fill="none" stroke="url(#g4)" stroke-width="220" stroke-linecap="round" opacity="0.5">
-<animateTransform attributeName="transform" type="translate" values="0,0;-12,20;18,-12;0,0" dur="18s" repeatCount="indefinite"/></path>
-<path d="M450,-50 C550,150 500,350 600,500 S750,700 700,950 S550,1200 700,1400" fill="none" stroke="url(#g5)" stroke-width="140" stroke-linecap="round" opacity="0.4">
-<animateTransform attributeName="transform" type="translate" values="0,0;15,-20;-10,15;0,0" dur="24s" repeatCount="indefinite"/></path>
-</svg>
-</div>
-<!-- Brand top-left -->
+<!-- Stripe wave background image (actual Stripe asset) -->
+<div class="login-wave-bg"></div>
+<!-- Brand top-left (like Stripe logo position) -->
 <div class="login-corner-brand">Ergon Corporate Development</div>
-<!-- Title top-center -->
-<div style="position:absolute;top:28px;left:50%;transform:translateX(-50%);z-index:2;font-size:13px;color:#697386;font-family:var(--font-sans)">U.S. Propane Market Map</div>
 <!-- Card -->
 <div class="login-box">
 <div class="tagline">Sign in to your account</div>
-<div class="lfield"><label>Email</label><input type="email" id="loginEmail" placeholder="name@ergon.com" autocomplete="email"></div>
-<div class="lfield"><label>Password</label><input type="password" id="loginPass" autocomplete="current-password" placeholder="" onkeydown="if(event.key==='Enter')doLogin()"></div>
+<div class="lfield"><label>Email</label><input type="email" id="loginEmail" placeholder="" autocomplete="email"></div>
+<div class="lfield" style="position:relative"><label>Password</label><input type="password" id="loginPass" autocomplete="current-password" placeholder="" onkeydown="if(event.key==='Enter')doLogin()"></div>
+<div style="display:flex;align-items:center;gap:8px;margin:12px 0 16px"><input type="checkbox" checked style="width:16px;height:16px;accent-color:#7C5CFC;cursor:pointer;border-radius:3px"><span style="font-size:13px;color:#3c4257">Remember me on this device</span></div>
 <button class="lbtn" id="loginBtn" onclick="doLogin()">Sign in</button>
 <div class="lerr" id="loginErr"></div>
 </div>
