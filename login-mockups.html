@@ -7,147 +7,126 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Inter,system-ui,sans-serif;background:#111;color:#fff}
+body{font-family:Inter,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#111;color:#fff}
 .nav{position:sticky;top:0;z-index:100;display:flex;background:#000;border-bottom:1px solid #333}
-.nav button{flex:1;padding:14px;border:none;font-size:13px;font-weight:600;cursor:pointer;color:#888;background:#000;border-bottom:3px solid transparent;font-family:Inter,sans-serif;transition:all .2s}
+.nav button{flex:1;padding:16px;border:none;font-size:13px;font-weight:600;cursor:pointer;color:#888;background:#000;border-bottom:3px solid transparent;font-family:Inter,sans-serif;transition:all .2s}
 .nav button.active{color:#fff;border-bottom-color:#7C5CFC}
 .nav button:hover{color:#ccc}
-.mockup{display:none;height:calc(100vh - 50px);overflow:hidden;position:relative}
-.mockup.active{display:flex;align-items:center;justify-content:center}
-.desc{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.85);color:#fff;padding:12px 24px;border-radius:12px;font-size:12px;max-width:600px;text-align:center;z-index:50;backdrop-filter:blur(10px);border:1px solid #333}
+.mockup{display:none;height:calc(100vh - 53px);overflow:hidden;position:relative}
+.mockup.active{display:flex}
 
-/* ====== OPTION A: Split screen — gradient left, form right ====== */
-#optA{display:flex;align-items:stretch;background:#fff}
-#optA .left-panel{flex:1;background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
-#optA .left-panel::before{content:'';position:absolute;width:200%;height:200%;top:-50%;left:-50%;background:
-  radial-gradient(circle at 30% 40%,rgba(124,92,252,0.4),transparent 50%),
-  radial-gradient(circle at 70% 60%,rgba(99,102,241,0.3),transparent 45%),
-  radial-gradient(circle at 50% 80%,rgba(139,92,246,0.25),transparent 40%);
-  animation:meshA 15s ease-in-out infinite alternate;filter:blur(60px)}
-@keyframes meshA{0%{transform:translate(0,0) rotate(0)}50%{transform:translate(-3%,2%) rotate(2deg)}100%{transform:translate(2%,-3%) rotate(-1deg)}}
-#optA .left-content{position:relative;z-index:1;text-align:center;color:#fff;max-width:400px;padding:40px}
-#optA .left-content h2{font-size:32px;font-weight:700;margin-bottom:12px;letter-spacing:-0.5px}
-#optA .left-content p{font-size:14px;color:rgba(255,255,255,0.7);line-height:1.6}
-#optA .left-content .brand{font-size:12px;font-weight:700;letter-spacing:2px;color:rgba(255,255,255,0.5);margin-bottom:32px;text-transform:uppercase}
-#optA .right-panel{width:480px;display:flex;align-items:center;justify-content:center;background:#fff;padding:60px}
-#optA .form-box{width:100%;max-width:360px}
-#optA .form-box h1{font-size:24px;font-weight:600;color:#101828;margin-bottom:8px}
-#optA .form-box .subtitle{font-size:14px;color:#667085;margin-bottom:32px}
+/* ====== OPTION 1: STRIPE CLONE ====== */
+/* Stripe's login: white/light page with animated gradient canvas behind everything.
+   Card is borderless, centered. Very minimal. The gradient is a full-bleed
+   WebGL canvas showing soft flowing colors. */
+#opt1{align-items:center;justify-content:center;background:#f6f9fc;position:relative}
+/* The canvas would go here — we simulate with CSS gradient animation */
+#opt1 .stripe-bg{position:absolute;inset:0;background:linear-gradient(135deg,
+  #e0e7ff 0%, #f0e6ff 15%, #e8f4f8 30%, #fce4ec 50%,
+  #e8eaf6 65%, #f3e5f5 80%, #e0f2f1 100%);
+  background-size:400% 400%;animation:stripeFlow 12s ease infinite;opacity:0.7}
+@keyframes stripeFlow{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+/* Stripe also has a noise texture overlay */
+#opt1 .stripe-noise{position:absolute;inset:0;opacity:0.03;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size:200px}
+#opt1 .stripe-card{position:relative;z-index:1;width:400px;max-width:90%;text-align:center}
+#opt1 .stripe-logo{margin-bottom:28px}
+#opt1 .stripe-logo svg{width:40px;height:40px}
+#opt1 .stripe-title{font-size:16px;font-weight:600;color:#3c4257;margin-bottom:24px}
+#opt1 .stripe-field{margin-bottom:12px;text-align:left}
+#opt1 .stripe-field label{display:block;font-size:13px;font-weight:500;color:#3c4257;margin-bottom:4px}
+#opt1 .stripe-field input{width:100%;padding:10px 12px;border:1px solid #e0e6ed;border-radius:6px;font-size:14px;font-family:inherit;outline:none;background:#fff;color:#1a1a2e;box-shadow:0 1px 2px rgba(0,0,0,0.04);transition:border-color .15s,box-shadow .15s}
+#opt1 .stripe-field input:focus{border-color:#635bff;box-shadow:0 0 0 3px rgba(99,91,255,0.12),0 1px 2px rgba(0,0,0,0.04)}
+#opt1 .stripe-field input::placeholder{color:#8898aa}
+#opt1 .stripe-btn{width:100%;padding:10px;border:none;border-radius:6px;background:#635bff;color:#fff;font-size:14px;font-weight:600;font-family:inherit;cursor:pointer;margin-top:4px;transition:all .15s;box-shadow:0 1px 3px rgba(99,91,255,0.3)}
+#opt1 .stripe-btn:hover{background:#5750e0;box-shadow:0 4px 12px rgba(99,91,255,0.3)}
+#opt1 .stripe-footer{margin-top:24px;font-size:11px;color:#8898aa}
+#opt1 .stripe-footer a{color:#635bff;text-decoration:none}
 
-/* ====== OPTION B: Centered card on animated gradient ====== */
-#optB{background:#f5f3ff;position:relative}
-#optB::before{content:'';position:absolute;inset:0;background:
-  radial-gradient(ellipse at 0% 0%,rgba(124,92,252,0.15),transparent 50%),
-  radial-gradient(ellipse at 100% 100%,rgba(99,102,241,0.12),transparent 50%),
-  radial-gradient(ellipse at 50% 50%,rgba(167,139,250,0.08),transparent 40%);
-  animation:meshB 20s ease-in-out infinite alternate}
-@keyframes meshB{0%{opacity:0.8;transform:scale(1)}50%{opacity:1;transform:scale(1.05)}100%{opacity:0.8;transform:scale(1)}}
-#optB .card{position:relative;z-index:1;background:rgba(255,255,255,0.92);backdrop-filter:blur(20px);border-radius:16px;padding:48px;width:420px;max-width:92%;box-shadow:0 25px 50px rgba(0,0,0,0.08);border:1px solid rgba(255,255,255,0.8)}
-#optB .card h1{font-size:13px;font-weight:700;letter-spacing:1.5px;color:#101828;text-transform:uppercase;text-align:center;margin-bottom:4px}
-#optB .card .corp{font-size:10px;color:#98A2B3;text-align:center;letter-spacing:0.5px;margin-bottom:28px}
-#optB .card h2{font-size:22px;font-weight:600;color:#101828;text-align:center;margin-bottom:28px}
-
-/* ====== OPTION C: Full bleed dark gradient with floating card ====== */
-#optC{background:#0a0a1a;position:relative}
-#optC .bg{position:absolute;inset:0;overflow:hidden}
-#optC .bg .orb{position:absolute;border-radius:50%;filter:blur(100px);animation:orbFloat 18s ease-in-out infinite}
-#optC .bg .orb:nth-child(1){width:700px;height:700px;background:rgba(124,92,252,0.3);top:-20%;left:-10%;animation-delay:0s}
-#optC .bg .orb:nth-child(2){width:500px;height:500px;background:rgba(99,102,241,0.25);bottom:-15%;right:-5%;animation-delay:-6s;animation-duration:22s}
-#optC .bg .orb:nth-child(3){width:400px;height:400px;background:rgba(139,92,246,0.2);top:30%;right:20%;animation-delay:-12s;animation-duration:25s}
-@keyframes orbFloat{0%,100%{transform:translate(0,0)}33%{transform:translate(40px,-30px)}66%{transform:translate(-30px,40px)}}
-#optC .card{position:relative;z-index:1;background:rgba(255,255,255,0.06);backdrop-filter:blur(30px);-webkit-backdrop-filter:blur(30px);border-radius:16px;padding:44px;width:400px;max-width:92%;box-shadow:0 0 0 1px rgba(255,255,255,0.1),0 20px 60px rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.08)}
-#optC .card h1{font-size:13px;font-weight:700;letter-spacing:1.5px;color:rgba(255,255,255,0.7);text-transform:uppercase;text-align:center;margin-bottom:4px}
-#optC .card .corp{font-size:10px;color:rgba(255,255,255,0.4);text-align:center;letter-spacing:0.5px;margin-bottom:28px}
-#optC .card h2{font-size:22px;font-weight:600;color:#fff;text-align:center;margin-bottom:28px}
-#optC .card label{color:rgba(255,255,255,0.7)}
-#optC .card input{background:rgba(255,255,255,0.08)!important;border-color:rgba(255,255,255,0.15)!important;color:#fff!important}
-#optC .card input::placeholder{color:rgba(255,255,255,0.3)!important}
-#optC .card input:focus{border-color:#7C5CFC!important;box-shadow:0 0 0 3px rgba(124,92,252,0.2)!important}
-#optC .card .footer{color:rgba(255,255,255,0.3)}
-
-/* Shared form styles */
-.form-field{margin-bottom:16px;text-align:left}
-.form-field label{display:block;font-size:13px;font-weight:500;color:#344054;margin-bottom:6px}
-.form-field input{width:100%;padding:10px 12px;border:1px solid #D0D5DD;border-radius:8px;font-size:15px;font-family:Inter,sans-serif;outline:none;background:#fff;color:#101828;transition:all .15s}
-.form-field input:focus{border-color:#7C5CFC;box-shadow:0 0 0 3px rgba(124,92,252,0.12)}
-.form-field input::placeholder{color:#98A2B3}
-.form-btn{width:100%;padding:11px;border:none;border-radius:8px;background:#7C5CFC;color:#fff;font-size:15px;font-weight:600;font-family:Inter,sans-serif;cursor:pointer;margin-top:8px;transition:all .15s}
-.form-btn:hover{background:#6941C6;box-shadow:0 4px 12px rgba(124,92,252,0.25)}
-.footer{font-size:9px;color:#98A2B3;margin-top:24px;text-align:center;line-height:1.8}
+/* ====== OPTION 2: VERCEL / LINEAR MINIMAL ====== */
+/* Pure white, no decoration, bold title, borderless card.
+   Extreme minimalism. Black button. Tiny footer. */
+#opt2{align-items:center;justify-content:center;background:#fff;flex-direction:column}
+#opt2 .v-logo{position:absolute;top:24px;left:32px}
+#opt2 .v-logo span{font-size:13px;font-weight:700;color:#000;letter-spacing:1px;text-transform:uppercase}
+#opt2 .v-card{width:400px;max-width:90%;text-align:center}
+#opt2 .v-title{font-size:28px;font-weight:700;color:#000;margin-bottom:32px;letter-spacing:-0.5px}
+#opt2 .v-field{margin-bottom:16px;text-align:left}
+#opt2 .v-field label{display:block;font-size:14px;font-weight:500;color:#111;margin-bottom:6px}
+#opt2 .v-field input{width:100%;padding:12px 14px;border:1px solid #eaeaea;border-radius:8px;font-size:15px;font-family:inherit;outline:none;background:#fafafa;color:#111;transition:border-color .15s}
+#opt2 .v-field input:focus{border-color:#000;background:#fff}
+#opt2 .v-field input::placeholder{color:#999}
+#opt2 .v-btn{width:100%;padding:12px;border:none;border-radius:8px;background:#000;color:#fff;font-size:15px;font-weight:600;font-family:inherit;cursor:pointer;margin-top:8px;transition:background .15s}
+#opt2 .v-btn:hover{background:#333}
+#opt2 .v-footer{margin-top:32px;font-size:12px;color:#999}
+#opt2 .v-secure{position:absolute;bottom:24px;left:50%;transform:translateX(-50%);font-size:10px;color:#bbb;text-align:center;white-space:nowrap}
 </style>
 </head>
 <body>
 
 <div class="nav">
-  <button class="active" onclick="show('A')">A — Split Screen</button>
-  <button onclick="show('B')">B — Frosted Glass on Light</button>
-  <button onclick="show('C')">C — Dark Glass + Orbs</button>
+  <button class="active" onclick="show('1')">1 — Stripe Clone</button>
+  <button onclick="show('2')">2 — Vercel / Linear Minimal</button>
 </div>
 
-<!-- OPTION A: Split screen -->
-<div class="mockup active" id="optA">
-  <div class="left-panel">
-    <div class="left-content">
-      <div class="brand">Ergon Corporate Development</div>
-      <h2>U.S. Propane Market Intelligence</h2>
-      <p>2,794 companies &bull; 8,820 locations &bull; 50 states<br>Real-time M&A targeting &amp; strategic analysis</p>
+<!-- OPTION 1: STRIPE CLONE -->
+<div class="mockup active" id="opt1">
+  <div class="stripe-bg"></div>
+  <div class="stripe-noise"></div>
+  <div class="stripe-card">
+    <div class="stripe-logo">
+      <!-- Simple Ergon mark -->
+      <div style="width:44px;height:44px;background:#635bff;border-radius:10px;margin:0 auto;display:flex;align-items:center;justify-content:center">
+        <span style="color:#fff;font-weight:700;font-size:18px;letter-spacing:1px">E</span>
+      </div>
+    </div>
+    <div class="stripe-title">Sign in to Ergon Corporate Development</div>
+    <div class="stripe-field">
+      <label>Email</label>
+      <input type="email" placeholder="name@ergon.com">
+    </div>
+    <div class="stripe-field">
+      <label>Password</label>
+      <input type="password" placeholder="Enter your password">
+    </div>
+    <button class="stripe-btn">Continue</button>
+    <div class="stripe-footer">
+      U.S. Propane Market Map<br>
+      <span style="font-size:10px;color:#aab7c4">Confidential &bull; Ergon, Inc. &mdash; Jackson, Mississippi</span>
     </div>
   </div>
-  <div class="right-panel">
-    <div class="form-box">
-      <h1>Welcome back</h1>
-      <div class="subtitle">Sign in to your account</div>
-      <div class="form-field"><label>Email address</label><input type="email" placeholder="name@ergon.com"></div>
-      <div class="form-field"><label>Password</label><input type="password" placeholder="Enter your password"></div>
-      <button class="form-btn">Sign in &rarr;</button>
-      <div class="footer">Confidential &bull; Authorized Personnel Only<br>Ergon, Inc. &mdash; Jackson, Mississippi</div>
+</div>
+
+<!-- OPTION 2: VERCEL / LINEAR MINIMAL -->
+<div class="mockup" id="opt2">
+  <div class="v-logo">
+    <span>Ergon</span>
+  </div>
+  <div class="v-card">
+    <div class="v-title">Log in to your account</div>
+    <div class="v-field">
+      <label>Email Address</label>
+      <input type="email" placeholder="name@ergon.com">
+    </div>
+    <div class="v-field">
+      <label>Password</label>
+      <input type="password" placeholder="">
+    </div>
+    <button class="v-btn">Continue</button>
+    <div class="v-footer">
+      U.S. Propane Market Map
     </div>
   </div>
-</div>
-
-<!-- OPTION B: Centered frosted card on light gradient -->
-<div class="mockup" id="optB">
-  <div class="card">
-    <h1>Ergon Corporate Development</h1>
-    <div class="corp">U.S. Propane Market Map</div>
-    <h2>Sign in</h2>
-    <div class="form-field"><label>Email address</label><input type="email" placeholder="name@ergon.com"></div>
-    <div class="form-field"><label>Password</label><input type="password" placeholder="Enter your password"></div>
-    <button class="form-btn">Continue &rarr;</button>
-    <div class="footer">Confidential &bull; Authorized Personnel Only<br>Ergon, Inc. &mdash; Jackson, Mississippi</div>
-  </div>
-</div>
-
-<!-- OPTION C: Dark glass card with orbs -->
-<div class="mockup" id="optC">
-  <div class="bg"><div class="orb"></div><div class="orb"></div><div class="orb"></div></div>
-  <div class="card">
-    <h1>Ergon Corporate Development</h1>
-    <div class="corp">U.S. Propane Market Map</div>
-    <h2>Sign in to your account</h2>
-    <div class="form-field"><label>Email address</label><input type="email" placeholder="name@ergon.com"></div>
-    <div class="form-field"><label>Password</label><input type="password" placeholder="Enter your password"></div>
-    <button class="form-btn">Sign in &rarr;</button>
-    <div class="footer">Confidential &bull; Authorized Personnel Only<br>Ergon, Inc. &mdash; Jackson, Mississippi</div>
-  </div>
-</div>
-
-<div class="desc" id="desc">
-  <b>Option A:</b> Split screen — animated gradient on left with company stats, clean form on right. Professional and informational.
+  <div class="v-secure">Confidential &bull; Authorized Personnel Only &bull; Ergon, Inc. &mdash; Jackson, Mississippi</div>
 </div>
 
 <script>
-var descs = {
-  A: '<b>Option A — Split Screen:</b> Animated gradient on left with company stats, clean white form on right. Professional, informational. Shows data credibility upfront.',
-  B: '<b>Option B — Frosted Glass on Light:</b> Subtle animated gradient on cream background, frosted glass card. Elegant, minimal, closest to current Stripe login.',
-  C: '<b>Option C — Dark Glass + Orbs:</b> Dark background with floating gradient orbs, glass-effect card with dark inputs. Premium, dramatic, tech-forward.'
-};
 function show(id){
   document.querySelectorAll('.mockup').forEach(m=>m.classList.remove('active'));
   document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
   document.getElementById('opt'+id).classList.add('active');
-  document.querySelectorAll('.nav button')[{A:0,B:1,C:2}[id]].classList.add('active');
-  document.getElementById('desc').innerHTML=descs[id];
+  document.querySelectorAll('.nav button')[id==='1'?0:1].classList.add('active');
 }
 </script>
 </body>
