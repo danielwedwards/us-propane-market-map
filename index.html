@@ -199,14 +199,16 @@ table.lt col.col-mkt{width:7%}table.lt col.col-rev{width:8%}table.lt col.col-emp
 table.lt col.col-states{width:13%}
 table.lt thead{position:sticky;top:0;z-index:10}
 /* === SPRINT 3: Elevated table header === */
-table.lt th{background:#F9FAFB;color:var(--text-secondary);padding:10px 8px;text-align:left;font-weight:600;font-size:10px;letter-spacing:0.04em;text-transform:uppercase;cursor:pointer;user-select:none;white-space:nowrap;border-bottom:1px solid var(--border);border-right:none;position:relative}
+table.lt th{background:#F9FAFB;color:var(--text-secondary);padding:10px 8px;text-align:center;font-weight:600;font-size:10px;letter-spacing:0.04em;text-transform:uppercase;cursor:pointer;user-select:none;white-space:nowrap;border-bottom:1px solid var(--border);border-right:none;position:relative}
+table.lt th:nth-child(4){text-align:left} /* Company header left-aligned */
 table.lt th.sorted{color:var(--brand)}
 table.lt th:hover{background:#F0F2F5}
 table.lt th .sort-arrow{font-size:8px;margin-left:2px;opacity:0.3}
 table.lt th.sorted .sort-arrow{opacity:1;color:var(--brand)}
 .th-sub{display:block;font-size:8px;font-weight:400;letter-spacing:0;text-transform:none;opacity:0.5;line-height:1;margin-top:2px}
 /* Modern SaaS table rows */
-table.lt td{padding:10px 8px;border-bottom:1px solid var(--border-subtle);vertical-align:middle;overflow:hidden;text-overflow:ellipsis;text-align:left;font-size:var(--text-sm)}
+table.lt td{padding:10px 8px;border-bottom:1px solid var(--border-subtle);vertical-align:middle;overflow:hidden;text-overflow:ellipsis;text-align:center;font-size:var(--text-sm)}
+table.lt td:nth-child(4){text-align:left} /* Company name left-aligned */
 table.lt tbody tr:nth-child(even){background:transparent}
 [data-theme="dark"] table.lt tbody tr:nth-child(even){background:rgba(255,255,255,0.015)}
 table.lt tbody tr{cursor:pointer;transition:background 0.1s ease}
@@ -223,8 +225,7 @@ table.lt tbody tr.kb-sel{outline:2px solid var(--gold);outline-offset:-2px}
 /* Modern SaaS badges — fully rounded pills */
 .badge{display:inline-block;padding:2px 8px;border-radius:var(--radius-full);font-size:10px;font-weight:500;white-space:nowrap}
 .b-public{background:var(--blue-light);color:var(--blue)}.b-pe{background:var(--purple-light);color:var(--purple)}.b-family{background:var(--green-light);color:var(--green)}.b-coop{background:var(--amber-light);color:var(--amber)}.b-private{background:#F5F6F8;color:var(--text-secondary)}.b-ll{background:var(--brand-light);color:var(--brand-dark)}
-.num{text-align:right;font-variant-numeric:tabular-nums;font-family:var(--font-mono);font-size:11px}
-table.lt td:nth-child(4){text-align:left}
+.num{text-align:center;font-variant-numeric:tabular-nums;font-family:var(--font-mono);font-size:11px}
 .th-full{display:none}.th-abbr{display:inline}
 .view-table .th-full{display:inline}.view-table .th-abbr{display:none}
 /* Modern SaaS score pills */
@@ -364,16 +365,9 @@ table.lt td:nth-child(4){text-align:left}
 [data-theme="dark"] .share-box h3{color:#e0e4ea}
 [data-theme="dark"] .share-box input,[data-theme="dark"] .share-box textarea{background:#1a2534;color:#e0e0e0;border-color:#2a3a4e}
 [data-theme="dark"] .email-opt{background:#1a2534;color:#a0aabb;border-color:#2a3a4e}
-/* === STRIPE LOGIN CLONE: White bg + animated gradient mesh === */
+/* === STRIPE LOGIN: WebGL animated gradient canvas === */
 .login-overlay{position:fixed;inset:0;z-index:10000;display:flex;align-items:center;justify-content:center;background:#fff;overflow:hidden}
-/* Stripe-style animated gradient blobs on white background */
-.login-overlay .login-mesh{position:absolute;inset:0;overflow:hidden;pointer-events:none}
-.login-overlay .login-mesh .blob{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.35;animation:blobFloat 20s ease-in-out infinite}
-.login-overlay .login-mesh .blob:nth-child(1){width:600px;height:600px;background:#7C5CFC;top:-10%;right:-5%;animation-delay:0s}
-.login-overlay .login-mesh .blob:nth-child(2){width:500px;height:500px;background:#3B82F6;bottom:-15%;left:-10%;animation-delay:-5s;animation-duration:25s}
-.login-overlay .login-mesh .blob:nth-child(3){width:400px;height:400px;background:#8B5CF6;top:40%;right:30%;animation-delay:-10s;animation-duration:22s;opacity:0.2}
-.login-overlay .login-mesh .blob:nth-child(4){width:350px;height:350px;background:#6366F1;bottom:10%;right:50%;animation-delay:-15s;animation-duration:28s;opacity:0.15}
-@keyframes blobFloat{0%,100%{transform:translate(0,0) scale(1)}25%{transform:translate(30px,-40px) scale(1.05)}50%{transform:translate(-20px,30px) scale(0.95)}75%{transform:translate(40px,20px) scale(1.02)}}
+#login-gradient-canvas{position:absolute;inset:0;width:100%;height:100%;--gradient-color-1:#c3a0f7;--gradient-color-2:#7C5CFC;--gradient-color-3:#a78bfa;--gradient-color-4:#ddd6fe}
 .login-overlay::before,.login-overlay::after{content:none}
 /* Login card */
 .login-box{background:#fff;border-radius:8px;padding:40px;width:400px;max-width:90%;box-shadow:0 15px 35px rgba(0,0,0,0.08),0 5px 15px rgba(0,0,0,0.04);text-align:left;position:relative;z-index:1;animation:loginIn 0.5s cubic-bezier(0.16,1,0.3,1);border:1px solid rgba(0,0,0,0.06)}
@@ -617,7 +611,7 @@ table.lt td{padding:var(--space-sm) var(--space-sm);min-height:var(--touch-min)}
 <a href="#mainArea" class="skip-link" style="position:absolute;top:-40px;left:0;background:var(--gold);color:var(--navy);padding:8px 16px;z-index:99999;font-size:13px;font-weight:600;transition:top .2s" onfocus="this.style.top='0'" onblur="this.style.top='-40px'">Skip to main content</a>
 <!-- === PRODUCT SPRINT C: Premium login screen with Ergon logo === -->
 <div class="login-overlay" id="loginOverlay" role="dialog" aria-modal="true" aria-label="Sign in to U.S. Propane Market Map">
-<div class="login-mesh"><div class="blob"></div><div class="blob"></div><div class="blob"></div><div class="blob"></div></div>
+<canvas id="login-gradient-canvas" data-transition-in></canvas>
 <div class="login-box">
 <div class="login-brand">
 <div class="login-logo-text">Ergon Corporate Development</div>
@@ -1900,9 +1894,9 @@ function op(id){try{
 
     // === Scoring & Ranking ===
     '<div class="ps"><h3>Scoring &amp; Ranking</h3><div class="pg" style="grid-template-columns:repeat(3,1fr)">'+
-    '<div class="pst" style="cursor:pointer" onclick="showScoreTip(event,\''+c.id+'\',\'prox\')"><div class="l">Proximity</div><div class="v '+scoreCls(ps)+'">'+ps+'</div><div class="n">Click for breakdown</div></div>'+
-    '<div class="pst" style="cursor:pointer" onclick="showScoreTip(event,\''+c.id+'\',\'county\')"><div class="l">County Market</div><div class="v '+scoreCls(cys)+'">'+cys+'</div><div class="n">Click for breakdown</div></div>'+
-    '<div class="pst" style="cursor:pointer" onclick="showScoreTip(event,\''+c.id+'\',\'total\')"><div class="l">Total Score</div><div class="v '+scoreCls(ts)+'" style="font-size:20px">'+ts+'</div><div class="n">Click for breakdown</div></div>'+
+    '<div class="pst" style="cursor:pointer" onmouseenter="showScoreTip(event,\''+c.id+'\',\'prox\')" onmouseleave="hideScoreTip()" onclick="showScoreTip(event,\''+c.id+'\',\'prox\')"><div class="l">Proximity</div><div class="v '+scoreCls(ps)+'">'+ps+'</div><div class="n">Platform distance</div></div>'+
+    '<div class="pst" style="cursor:pointer" onmouseenter="showScoreTip(event,\''+c.id+'\',\'county\')" onmouseleave="hideScoreTip()" onclick="showScoreTip(event,\''+c.id+'\',\'county\')"><div class="l">County Market</div><div class="v '+scoreCls(cys)+'">'+cys+'</div><div class="n">Market quality</div></div>'+
+    '<div class="pst" style="cursor:pointer" onmouseenter="showScoreTip(event,\''+c.id+'\',\'total\')" onmouseleave="hideScoreTip()" onclick="showScoreTip(event,\''+c.id+'\',\'total\')"><div class="l">Total Score</div><div class="v '+scoreCls(ts)+'" style="font-size:20px">'+ts+'</div><div class="n">Combined rank</div></div>'+
     '</div></div>'+
 
     // === Market Presence ===
@@ -2462,14 +2456,14 @@ function renderCharts(){
   var ownerKeys={};
   allCompanies.forEach(function(c){var label=OL[c.ownership];ownerCounts[label]=(ownerCounts[label]||0)+1;ownerKeys[label]=c.ownership});
   var ch1=echarts.init(document.getElementById('chartOwnership'),theme);
-  ch1.setOption({tooltip:{trigger:'item',formatter:'{b}: {c} ({d}%)'},series:[{type:'pie',radius:['40%','70%'],itemStyle:{borderRadius:6,borderColor:isDark?'#16202e':'#fff',borderWidth:2},label:{show:true,fontSize:11},data:Object.entries(ownerCounts).map(function(e){return{name:e[0],value:e[1]}}),cursor:'pointer'}],color:['#1565C0','#F57F17','#2E7D32','#7B1FA2','#546E7A','#C8A951']});
+  ch1.setOption({tooltip:{trigger:'item',formatter:'{b}: {c} ({d}%)'},series:[{type:'pie',radius:['40%','70%'],itemStyle:{borderRadius:6,borderColor:isDark?'#16202e':'#fff',borderWidth:2},label:{show:true,fontSize:11},data:Object.entries(ownerCounts).map(function(e){return{name:e[0],value:e[1]}}),cursor:'pointer'}],color:['#175CD3','#6941C6','#027A48','#B54708','#475467','#7C5CFC']});
   ch1.on('click',function(params){var owKey=ownerKeys[params.name];if(owKey){toggleOwner(owKey);setView('table')}});
   chartInstances.push(ch1);
   // 2. Top 25 by Locations Bar — ALL companies, clickable to open profile
   var locCos=allCompanies.map(function(c){var filtLocs=stateFilter.size>0?c.locations.filter(function(l){return stateFilter.has(l.state)}).length:c.locations.length;return Object.assign({},c,{filtLocs:filtLocs})}).sort(function(a,b){return(b.filtLocs||0)-(a.filtLocs||0)}).slice(0,25);
   var titleEl=document.getElementById('chartLocTitle');if(titleEl)titleEl.textContent='Top 25 Companies by Locations'+(stateFilter.size>0?' in '+[...stateFilter].join(', '):'');
   var ch2=echarts.init(document.getElementById('chartLocations'),theme);
-  ch2.setOption({tooltip:{trigger:'axis',formatter:function(p){var co=locCos[locCos.length-1-p[0].dataIndex];return '<b>'+p[0].name+'</b><br>'+p[0].value+' locations'+(stateFilter.size>0?' in '+[...stateFilter].join(', '):' (SE total)')+(co&&co.estRevenue?'<br>$'+co.estRevenue+'M est. revenue':'')+(co?'<br><span style="color:#8899AA;font-size:10px">Click to view profile</span>':'')}},grid:{left:140,right:30,top:10,bottom:30},xAxis:{type:'value',axisLabel:{fontSize:9}},yAxis:{type:'category',data:locCos.map(function(c){return c.name}).reverse(),axisLabel:{fontSize:9,width:130,overflow:'truncate'}},series:[{type:'bar',data:locCos.map(function(c){return c.filtLocs}).reverse(),itemStyle:{color:new echarts.graphic.LinearGradient(0,0,1,0,[{offset:0,color:'#C8A951'},{offset:1,color:'#2E7D32'}]),borderRadius:[0,4,4,0]},barWidth:12,cursor:'pointer'}]});
+  ch2.setOption({tooltip:{trigger:'axis',formatter:function(p){var co=locCos[locCos.length-1-p[0].dataIndex];return '<b>'+p[0].name+'</b><br>'+p[0].value+' locations'+(stateFilter.size>0?' in '+[...stateFilter].join(', '):'')+(co&&co.estRevenue?'<br>$'+co.estRevenue+'M est. revenue':'')+(co?'<br><span style="color:#8899AA;font-size:10px">Click to view profile</span>':'')}},grid:{left:140,right:30,top:10,bottom:30},xAxis:{type:'value',axisLabel:{fontSize:9}},yAxis:{type:'category',data:locCos.map(function(c){return c.name}).reverse(),axisLabel:{fontSize:9,width:130,overflow:'truncate'}},series:[{type:'bar',data:locCos.map(function(c){return c.filtLocs}).reverse(),itemStyle:{color:new echarts.graphic.LinearGradient(0,0,1,0,[{offset:0,color:'#C4B5FD'},{offset:1,color:'#7C5CFC'}]),borderRadius:[0,4,4,0]},barWidth:14,cursor:'pointer'}]});
   ch2.on('click',function(params){var idx=locCos.length-1-params.dataIndex;if(locCos[idx]){op(locCos[idx].id)}});
   chartInstances.push(ch2);
   /* Ensure charts resize to fit container after render */
@@ -2595,6 +2589,10 @@ window.addEventListener('load',async()=>{
   // Safety timeout — force-hide loading overlay after 20s
   setTimeout(function(){document.getElementById('loadingOverlay').classList.add('hidden')},20000);
 });
+</script>
+<script src="stripe-gradient.js"></script>
+<script>
+try{var g=new Gradient();g.initGradient('#login-gradient-canvas')}catch(e){console.warn('Gradient init:',e)}
 </script>
 </body>
 </html>
