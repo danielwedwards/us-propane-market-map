@@ -365,21 +365,23 @@ table.lt tbody tr.kb-sel{outline:2px solid var(--gold);outline-offset:-2px}
 [data-theme="dark"] .share-box h3{color:#e0e4ea}
 [data-theme="dark"] .share-box input,[data-theme="dark"] .share-box textarea{background:#1a2534;color:#e0e0e0;border-color:#2a3a4e}
 [data-theme="dark"] .email-opt{background:#1a2534;color:#a0aabb;border-color:#2a3a4e}
-/* === STRIPE LOGIN CLONE === */
-.login-overlay{position:fixed;inset:0;z-index:10000;background:#ffffff;overflow:hidden;display:flex;align-items:center;justify-content:center}
+/* === LOGIN: Floating Mesh Orbs === */
+.login-overlay{position:fixed;inset:0;z-index:10000;background:#f8f9fc;overflow:hidden;display:flex;align-items:center;justify-content:center}
 .login-overlay::before,.login-overlay::after{content:none}
-/* Wave image with visible color-shifting animation */
-.login-wave-bg{position:absolute;inset:-5%;width:110%;height:110%;background:url('login-wave.webp') center center / cover no-repeat;z-index:0;animation:waveMove 20s ease-in-out infinite alternate,waveColor 30s linear infinite}
-@keyframes waveMove{0%{transform:translate(0,0) scale(1)}25%{transform:translate(1%,-0.8%) scale(1.02)}50%{transform:translate(-0.5%,1%) scale(1.01)}75%{transform:translate(0.8%,0.5%) scale(1.03)}100%{transform:translate(-0.3%,-0.5%) scale(1)}}
-@keyframes waveColor{0%{filter:hue-rotate(0deg)}50%{filter:hue-rotate(25deg)}100%{filter:hue-rotate(0deg)}}
+/* Floating orbs */
+.login-orb{position:absolute;border-radius:50%;filter:blur(80px);animation:orbFloat 20s ease-in-out infinite;pointer-events:none}
+.login-orb:nth-child(1){width:500px;height:500px;background:rgba(124,92,252,0.25);top:-10%;right:5%;animation-delay:0s}
+.login-orb:nth-child(2){width:400px;height:400px;background:rgba(59,130,246,0.2);bottom:-5%;left:10%;animation-delay:-7s;animation-duration:25s}
+.login-orb:nth-child(3){width:350px;height:350px;background:rgba(236,72,153,0.15);top:30%;left:60%;animation-delay:-14s;animation-duration:22s}
+.login-orb:nth-child(4){width:300px;height:300px;background:rgba(245,158,11,0.12);bottom:20%;right:30%;animation-delay:-4s;animation-duration:28s}
+@keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}25%{transform:translate(40px,-50px) scale(1.1)}50%{transform:translate(-30px,40px) scale(0.95)}75%{transform:translate(50px,20px) scale(1.05)}}
 /* Brand top-left */
-.login-corner-brand{position:absolute;top:28px;left:36px;z-index:2;font-family:var(--font-sans);font-size:14px;font-weight:700;color:#0D1B2A;letter-spacing:0.3px}
-/* White card — centered like Stripe */
+.login-corner-brand{position:absolute;top:28px;left:36px;z-index:2;font-family:var(--font-sans);font-size:18px;font-weight:700;color:#0D1B2A;letter-spacing:0.3px}
+/* Card */
 .login-box{background:#fff;border-radius:8px;padding:40px;width:420px;max-width:90%;box-shadow:0 15px 35px rgba(0,0,0,0.07),0 5px 15px rgba(0,0,0,0.04);text-align:left;position:relative;z-index:1;animation:loginIn 0.6s cubic-bezier(0.16,1,0.3,1)}
 @keyframes loginIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
 .login-box::before{content:none}
 .login-brand{display:none}
-.login-box .tagline{font-size:20px;color:#1a1a2e;margin-bottom:24px;font-weight:600;font-family:var(--font-sans);text-align:left}
 .login-box .lfield{margin-bottom:16px;text-align:left}
 .login-box .lfield label{display:block;font-size:14px;font-weight:500;color:#3c4257;margin-bottom:6px}
 .login-box .lfield input{width:100%;padding:10px 12px;border:1px solid #d8dee4;border-radius:6px;font-size:15px;font-family:inherit;outline:none;transition:border-color .15s,box-shadow .15s;background:#fff;color:#1a1a2e;box-shadow:0 1px 1px rgba(0,0,0,0.03),0 0 0 1px rgba(0,0,0,0.02)}
@@ -612,14 +614,14 @@ table.lt td{padding:var(--space-sm) var(--space-sm);min-height:var(--touch-min)}
 <a href="#mainArea" class="skip-link" style="position:absolute;top:-40px;left:0;background:var(--gold);color:var(--navy);padding:8px 16px;z-index:99999;font-size:13px;font-weight:600;transition:top .2s" onfocus="this.style.top='0'" onblur="this.style.top='-40px'">Skip to main content</a>
 <!-- === PRODUCT SPRINT C: Premium login screen with Ergon logo === -->
 <div class="login-overlay" id="loginOverlay" role="dialog" aria-modal="true" aria-label="Sign in to U.S. Propane Market Map">
-<!-- Wave background (Stripe's actual wave graphic with slow drift animation) -->
-<div class="login-wave-bg"></div>
-<!-- Brand top-left (replaces Stripe logo) -->
+<!-- Floating mesh orbs -->
+<div class="login-orb"></div><div class="login-orb"></div><div class="login-orb"></div><div class="login-orb"></div>
+<!-- Brand top-left -->
 <div class="login-corner-brand">Ergon Corporate Development</div>
 <!-- Card -->
 <div class="login-box">
-<div style="font-size:13px;color:#697386;margin-bottom:16px;text-align:left">U.S. Propane Market Map</div>
-<div class="tagline">Sign in to your account</div>
+<div class="tagline" style="font-size:22px;font-weight:700;color:#101828;margin-bottom:4px;letter-spacing:-0.3px">U.S. Propane Market Map</div>
+<div style="font-size:14px;color:#697386;margin-bottom:24px">Sign in to your account</div>
 <div class="lfield"><label>Email</label><input type="email" id="loginEmail" placeholder="" autocomplete="email"></div>
 <div class="lfield" style="position:relative"><label>Password</label><input type="password" id="loginPass" autocomplete="current-password" placeholder="" onkeydown="if(event.key==='Enter')doLogin()"></div>
 <div style="display:flex;align-items:center;gap:8px;margin:12px 0 16px"><input type="checkbox" checked style="width:16px;height:16px;accent-color:#7C5CFC;cursor:pointer;border-radius:3px"><span style="font-size:13px;color:#3c4257">Remember me on this device</span></div>
