@@ -291,8 +291,8 @@ table.lt tbody tr.kb-sel{outline:2px solid var(--gold);outline-offset:-2px}
 .pf-bar.active{display:block}
 .pf-summary{padding:10px 20px;display:flex;align-items:center;gap:16px;cursor:pointer;background:#101828;color:var(--white);font-size:12px;font-family:var(--font-sans)}
 .pf-title{font-family:var(--font-sans);font-size:14px;font-weight:600}
-.pf-stats{color:var(--gold);font-size:11px;flex:1}
-.pf-expand{color:var(--gold);font-size:14px;transition:transform 0.3s}
+.pf-stats{color:#A78BFA;font-size:11px;flex:1;font-family:var(--font-mono)}
+.pf-expand{color:#A78BFA;font-size:14px;transition:transform 0.3s}
 .pf-bar.expanded .pf-expand{transform:rotate(180deg)}
 .pf-body{padding:16px 20px;display:none;max-height:280px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
 .pf-bar.expanded .pf-body{display:block}
@@ -317,7 +317,7 @@ table.lt tbody tr.kb-sel{outline:2px solid var(--gold);outline-offset:-2px}
 .pf-bar.fullscreen .pf-grid{grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px}
 .pf-bar.fullscreen .pf-metric .v{font-size:28px}
 /* === PRODUCT SPRINT B: Fixed dropdown positioning === */
-.saves-dropdown{position:absolute;bottom:100%;left:0;right:0;margin-bottom:4px;background:var(--white);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-lg);min-width:240px;max-height:300px;overflow-y:auto;z-index:2000;display:none;padding:8px 0}
+.saves-dropdown{position:fixed;bottom:auto;left:16px;top:auto;background:var(--white);border:1px solid var(--border);border-radius:var(--radius-md);box-shadow:var(--shadow-lg);width:280px;max-height:350px;overflow-y:auto;z-index:2000;display:none;padding:8px 0}
 .saves-dropdown.open{display:block}
 .saves-dropdown .sd-title{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;color:var(--slate);padding:6px 14px;border-bottom:1px solid var(--border)}
 .saves-dropdown .sd-item{padding:8px 14px;cursor:pointer;font-size:11px;display:flex;justify-content:space-between;align-items:center;transition:background var(--tr)}
@@ -876,9 +876,11 @@ table.lt td{padding:var(--space-sm) var(--space-sm);min-height:var(--touch-min)}
 </div>
 </div>
 <div class="charts-wrap" id="chartsWrap">
-<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
-<div style="background:var(--white);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)"><h3 style="font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--slate);margin-bottom:12px">Companies by Ownership Type</h3><div id="chartOwnership" style="height:400px"></div></div>
-<div style="background:var(--white);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow)"><h3 id="chartLocTitle" style="font-size:12px;text-transform:uppercase;letter-spacing:1px;color:var(--slate);margin-bottom:12px">Top 25 Companies by Locations</h3><div id="chartLocations" style="height:400px"></div></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+<div style="background:var(--white);border-radius:var(--radius-lg);padding:20px;border:1px solid var(--border)"><h3>Companies by Ownership Type</h3><div id="chartOwnership" style="height:380px"></div></div>
+<div style="background:var(--white);border-radius:var(--radius-lg);padding:20px;border:1px solid var(--border)"><h3 id="chartLocTitle">Top 25 Companies by Locations</h3><div id="chartLocations" style="height:380px"></div></div>
+<div style="background:var(--white);border-radius:var(--radius-lg);padding:20px;border:1px solid var(--border)"><h3>Companies by Business Type</h3><div id="chartBizType" style="height:380px"></div></div>
+<div style="background:var(--white);border-radius:var(--radius-lg);padding:20px;border:1px solid var(--border)"><h3>Top 15 States by Company Count</h3><div id="chartStates" style="height:380px"></div></div>
 </div>
 </div>
 </div><!-- close mainArea -->
@@ -1349,7 +1351,7 @@ function fil(){
     if(ownerFilter.size>0&&!ownerFilter.has(c.ownership))return false;
     if(ctFilter.size>0&&!ctFilter.has(c.companyType||'retail_dealer'))return false;
     if(stateFilter.size>0&&!c.states.some(s=>stateFilter.has(s)))return false;
-    if(hideEx&&c.excluded)return false;
+    if(hideEx&&c.excluded&&c.id!==LL_ID)return false; /* Never hide Lampton Love */
     if(searchQuery){let q=searchQuery.toLowerCase(),s=[c.name,c.hqCity,c.hqState,c.ownerDetail,c.parentGroup,c.description,c.phone,c.companyType||'',...c.states,...(c.keyPersonnel||[]).map(function(p){return p.name}),...(c.serviceTypes||[])].filter(Boolean).join(' ').toLowerCase();if(!s.includes(q))return false}
     return true
   });
@@ -2306,8 +2308,10 @@ function toggleSavesDropdown(){
   /* Position fixed dropdown below the button */
   let btn=document.getElementById('savedScenariosBtn');
   let rect=btn.getBoundingClientRect();
-  dd.style.top=(rect.bottom+4)+'px';
-  dd.style.left=Math.max(8,Math.min(rect.left,window.innerWidth-320))+'px';
+  /* Position above the button since it's near bottom of sidebar */
+  dd.style.bottom=(window.innerHeight-rect.top+4)+'px';
+  dd.style.top='auto';
+  dd.style.left=rect.left+'px';
   dd.classList.add('open');
 }
 function closeSavesDropdown(){document.getElementById('savesDD').classList.remove('open');deleteConfirmIdx=-1}
@@ -2466,6 +2470,21 @@ function renderCharts(){
   ch2.setOption({tooltip:{trigger:'axis',formatter:function(p){var co=locCos[locCos.length-1-p[0].dataIndex];return '<b>'+p[0].name+'</b><br>'+p[0].value+' locations'+(stateFilter.size>0?' in '+[...stateFilter].join(', '):'')+(co&&co.estRevenue?'<br>$'+co.estRevenue+'M est. revenue':'')+(co?'<br><span style="color:#8899AA;font-size:10px">Click to view profile</span>':'')}},grid:{left:140,right:30,top:10,bottom:30},xAxis:{type:'value',axisLabel:{fontSize:9}},yAxis:{type:'category',data:locCos.map(function(c){return c.name}).reverse(),axisLabel:{fontSize:9,width:130,overflow:'truncate'}},series:[{type:'bar',data:locCos.map(function(c){return c.filtLocs}).reverse(),itemStyle:{color:new echarts.graphic.LinearGradient(0,0,1,0,[{offset:0,color:'#C4B5FD'},{offset:1,color:'#7C5CFC'}]),borderRadius:[0,4,4,0]},barWidth:14,cursor:'pointer'}]});
   ch2.on('click',function(params){var idx=locCos.length-1-params.dataIndex;if(locCos[idx]){op(locCos[idx].id)}});
   chartInstances.push(ch2);
+  // 3. Business Type Donut
+  var btCounts={};
+  allCompanies.forEach(function(c){var t=CTL[c.companyType]||'Retail Dealer';btCounts[t]=(btCounts[t]||0)+1});
+  var ch3El=document.getElementById('chartBizType');
+  if(ch3El){var ch3=echarts.init(ch3El,theme);
+  ch3.setOption({tooltip:{trigger:'item',formatter:'{b}: {c} ({d}%)'},series:[{type:'pie',radius:['45%','72%'],itemStyle:{borderRadius:6,borderColor:isDark?'#16202e':'#fff',borderWidth:2},label:{show:true,fontSize:11},data:Object.entries(btCounts).map(function(e){return{name:e[0],value:e[1]}})}],color:['#7C5CFC','#3B82F6','#F59E0B','#475467','#EF4444','#10B981']});
+  chartInstances.push(ch3)}
+  // 4. Top 15 States by Company Count
+  var stCounts={};
+  allCompanies.forEach(function(c){c.states.forEach(function(s){stCounts[s]=(stCounts[s]||0)+1})});
+  var stSorted=Object.entries(stCounts).sort(function(a,b){return b[1]-a[1]}).slice(0,15);
+  var ch4El=document.getElementById('chartStates');
+  if(ch4El){var ch4=echarts.init(ch4El,theme);
+  ch4.setOption({tooltip:{trigger:'axis'},grid:{left:50,right:30,top:10,bottom:30},xAxis:{type:'category',data:stSorted.map(function(e){return e[0]}),axisLabel:{fontSize:10}},yAxis:{type:'value',axisLabel:{fontSize:9}},series:[{type:'bar',data:stSorted.map(function(e){return e[1]}),itemStyle:{color:'#7C5CFC',borderRadius:[4,4,0,0]},barWidth:20}]});
+  chartInstances.push(ch4)}
   /* Ensure charts resize to fit container after render */
   setTimeout(function(){chartInstances.forEach(function(c){c.resize()})},50);
 }
