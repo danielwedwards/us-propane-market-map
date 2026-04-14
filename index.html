@@ -365,16 +365,12 @@ table.lt tbody tr.kb-sel{outline:2px solid var(--gold);outline-offset:-2px}
 [data-theme="dark"] .share-box h3{color:#e0e4ea}
 [data-theme="dark"] .share-box input,[data-theme="dark"] .share-box textarea{background:#1a2534;color:#e0e0e0;border-color:#2a3a4e}
 [data-theme="dark"] .email-opt{background:#1a2534;color:#a0aabb;border-color:#2a3a4e}
-/* === STRIPE LOGIN CLONE — WebGL animated gradient + wave fallback === */
+/* === STRIPE LOGIN CLONE === */
 .login-overlay{position:fixed;inset:0;z-index:10000;background:#ffffff;overflow:hidden;display:flex;align-items:center;justify-content:center}
 .login-overlay::before,.login-overlay::after{content:none}
-/* WebGL canvas for animated gradient (primary) */
-#login-gradient-canvas{position:absolute;inset:0;width:100%;height:100%;z-index:0;
-  --gradient-color-1:#ef8e4a;--gradient-color-2:#e24ca8;--gradient-color-3:#a855f7;--gradient-color-4:#f9a825}
-/* Wave image fallback (shown while WebGL loads or if WebGL fails) */
-.login-wave-bg{position:absolute;inset:0;background:url('login-wave.webp') center center / cover no-repeat;z-index:0}
-/* Title bar at very top */
-.login-top-title{position:absolute;top:0;left:0;right:0;height:48px;display:flex;align-items:center;justify-content:center;z-index:2;font-family:var(--font-sans);font-size:13px;font-weight:600;color:#3c4257;letter-spacing:0.3px}
+/* Wave image — positioned to cover the page like Stripe */
+.login-wave-bg{position:absolute;inset:0;background:url('login-wave.webp') center center / cover no-repeat;z-index:0;animation:waveSlowDrift 60s ease-in-out infinite alternate}
+@keyframes waveSlowDrift{0%{transform:scale(1) translate(0,0)}50%{transform:scale(1.03) translate(-0.5%,0.3%)}100%{transform:scale(1) translate(0.3%,-0.5%)}}
 /* Brand top-left */
 .login-corner-brand{position:absolute;top:28px;left:36px;z-index:2;font-family:var(--font-sans);font-size:14px;font-weight:700;color:#0D1B2A;letter-spacing:0.3px}
 /* Copyright bottom-left */
@@ -617,16 +613,13 @@ table.lt td{padding:var(--space-sm) var(--space-sm);min-height:var(--touch-min)}
 <a href="#mainArea" class="skip-link" style="position:absolute;top:-40px;left:0;background:var(--gold);color:var(--navy);padding:8px 16px;z-index:99999;font-size:13px;font-weight:600;transition:top .2s" onfocus="this.style.top='0'" onblur="this.style.top='-40px'">Skip to main content</a>
 <!-- === PRODUCT SPRINT C: Premium login screen with Ergon logo === -->
 <div class="login-overlay" id="loginOverlay" role="dialog" aria-modal="true" aria-label="Sign in to U.S. Propane Market Map">
-<!-- WebGL animated gradient canvas (moves like Stripe) -->
-<canvas id="login-gradient-canvas" data-transition-in></canvas>
-<!-- Static wave fallback (shows while WebGL initializes) -->
+<!-- Wave background (Stripe's actual wave graphic with slow drift animation) -->
 <div class="login-wave-bg"></div>
-<!-- Title top center -->
-<div class="login-top-title">U.S. Propane Market Map</div>
-<!-- Brand top-left (like Stripe logo position) -->
+<!-- Brand top-left (replaces Stripe logo) -->
 <div class="login-corner-brand">Ergon Corporate Development</div>
 <!-- Card -->
 <div class="login-box">
+<div style="font-size:13px;color:#697386;margin-bottom:16px;text-align:left">U.S. Propane Market Map</div>
 <div class="tagline">Sign in to your account</div>
 <div class="lfield"><label>Email</label><input type="email" id="loginEmail" placeholder="" autocomplete="email"></div>
 <div class="lfield" style="position:relative"><label>Password</label><input type="password" id="loginPass" autocomplete="current-password" placeholder="" onkeydown="if(event.key==='Enter')doLogin()"></div>
@@ -2621,15 +2614,6 @@ window.addEventListener('load',async()=>{
   setTimeout(function(){document.getElementById('loadingOverlay').classList.add('hidden')},20000);
 });
 </script>
-<script src="stripe-gradient.js"></script>
-<script>
-try{
-  var gradient=new Gradient();
-  gradient.initGradient('#login-gradient-canvas');
-  // Hide the static fallback once WebGL canvas is running
-  var waveFallback=document.querySelector('.login-wave-bg');
-  if(waveFallback)setTimeout(function(){waveFallback.style.opacity='0';waveFallback.style.transition='opacity 1s'},500);
-}catch(e){console.warn('WebGL gradient unavailable, using static wave image:',e)}
-</script>
+<!-- Wave animation handled by CSS keyframes on the background image -->
 </body>
 </html>
