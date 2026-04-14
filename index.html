@@ -172,8 +172,8 @@ select.fsel{padding:5px 8px;border:1px solid var(--border);border-radius:var(--r
 .main.pf-expanded{flex:1;min-height:0}
 .left{width:480px;min-width:340px;border-right:1px solid var(--border);display:flex;flex-direction:column;background:var(--white);overflow:hidden}
 /* === PRODUCT SPRINT B: Elevated League Table header === */
-.ph{padding:10px 16px;background:linear-gradient(180deg,var(--light-bg),#eef0f3);border-bottom:2px solid var(--gold);display:flex;align-items:center;justify-content:space-between}
-.ph h2{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:1.2px;color:var(--navy);font-family:var(--font-serif)}
+.ph{padding:12px 16px;background:#FFFFFF;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.ph h2{font-size:14px;font-weight:600;letter-spacing:0;color:var(--text-primary);font-family:var(--font-sans);text-transform:none}
 .ph .cnt{font-size:11px;color:var(--slate);font-weight:500;background:rgba(0,0,0,0.04);padding:2px 10px;border-radius:var(--radius-full)}
 [data-theme="dark"] .ph{background:linear-gradient(180deg,#0e1620,#0a1018);border-bottom-color:var(--gold)}
 [data-theme="dark"] .ph h2{color:#e0e4ea}
@@ -427,7 +427,7 @@ table.lt td:nth-child(4){text-align:left}
 .kbd-hint{display:inline-block;font-size:8px;background:rgba(0,0,0,0.08);color:var(--slate);padding:1px 4px;border-radius:3px;margin-left:4px;font-family:monospace;vertical-align:middle;line-height:1.4}
 [data-theme="dark"] .kbd-hint{background:rgba(255,255,255,0.08)}
 /* === SPRINT 2: Active filter chips === */
-.filter-bar{padding:4px 16px;background:var(--light-bg);border-bottom:1px solid var(--border);display:none;align-items:center;gap:6px;flex-wrap:wrap;font-size:var(--text-xs)}
+.filter-bar{padding:6px 16px;background:#FFFFFF;border-bottom:1px solid var(--border-subtle);display:none;align-items:center;gap:6px;flex-wrap:wrap;font-size:var(--text-xs)}
 .filter-bar.active{display:flex}
 .filter-chip{display:inline-flex;align-items:center;gap:4px;padding:3px 8px 3px 10px;background:var(--brand-light);border:none;border-radius:var(--radius-sm);font-size:var(--text-xs);color:var(--brand);font-weight:500}
 .filter-chip .chip-x{width:14px;height:14px;border-radius:50%;border:none;background:transparent;color:var(--slate);font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;line-height:1;padding:0}
@@ -560,6 +560,27 @@ table.lt td{padding:var(--space-sm) var(--space-sm);min-height:var(--touch-min)}
 .main.view-charts .charts-wrap{display:block!important}
 [data-theme="dark"] .charts-wrap{background:#0a1018}
 [data-theme="dark"] .charts-wrap > div > div{background:#16202e}
+
+/* ========== MODERN SAAS: SIDEBAR LAYOUT ========== */
+.app-layout{display:flex;flex:1;overflow:hidden}
+.sidebar{width:240px;min-width:240px;background:#FFFFFF;border-right:1px solid var(--border);overflow-y:auto;display:flex;flex-direction:column;flex-shrink:0;scrollbar-width:thin}
+.sb-section{padding:14px 16px;border-bottom:1px solid var(--border-subtle)}
+.sb-title{font-size:11px;font-weight:600;color:var(--text-secondary);letter-spacing:0.02em;margin-bottom:10px}
+.sb-search{width:100%;padding:9px 12px;background:#F5F6F8;border:1px solid var(--border);border-radius:var(--radius-md);font-size:12px;font-family:var(--font-sans);color:var(--text-primary);outline:none;transition:all var(--tr-fast)}
+.sb-search::placeholder{color:var(--text-tertiary)}
+.sb-search:focus{border-color:var(--brand);background:#fff;box-shadow:0 0 0 3px rgba(124,92,252,0.1)}
+.sb-pills{display:flex;flex-wrap:wrap;gap:4px}
+.sb-pills .state-pill{font-size:11px;padding:4px 10px}
+.sb-btn{width:100%;text-align:left;justify-content:flex-start}
+.sb-check{display:flex;align-items:center;gap:8px;padding:5px 0;font-size:12px;color:var(--text-primary);cursor:pointer}
+.sb-check input[type="checkbox"]{width:16px;height:16px;border-radius:4px;accent-color:var(--brand);cursor:pointer}
+/* Adjust main content to sit next to sidebar */
+.main{flex:1;overflow:hidden}
+/* Hide the old bar (kept for JS compat) */
+.view-toggle{display:none!important}
+/* Responsive: collapse sidebar on small screens */
+@media(max-width:1024px){.sidebar{width:200px;min-width:200px}}
+@media(max-width:768px){.sidebar{display:none}.app-layout{flex-direction:column}}
 </style>
 </head>
 <body>
@@ -663,30 +684,47 @@ table.lt td{padding:var(--space-sm) var(--space-sm);min-height:var(--touch-min)}
 <!-- SPRINT 5: Score tooltip + row preview -->
 <div class="score-tip" id="scoreTip"></div>
 <div class="row-preview" id="rowPreview"></div>
+<!-- ========== MODERN SAAS HEADER ========== -->
 <div class="header">
 <div class="header-left">
-<!-- === PRODUCT SPRINT B: Title all white, Ergon gold === -->
-<h1>U.S. Propane Market Map</h1>
+<h1>Ergon<span style="color:var(--brand)">.</span></h1>
 <div class="sep"></div>
-<span class="sub" style="color:var(--gold);opacity:1;font-weight:600">Ergon Corporate Development</span>
+<span class="sub">U.S. Propane Market Map</span>
 </div>
 <div class="header-stats">
-<span><b id="hc">0</b>Companies</span>
-<span><b id="hl">0</b>Locations</span>
-<span><b id="hs">0</b>States</span>
-<span style="font-size:9px;color:var(--slate);opacity:0.7">Updated: April 2026</span>
-<button class="logout-btn" onclick="resetApp()" title="Reset all filters and clear state" aria-label="Reset">&#x21bb; Reset</button>
-<button class="logout-btn" onclick="doLogout()" title="Sign out" aria-label="Sign out">Sign Out</button>
+<span><b id="hc">0</b> Companies</span>
+<span><b id="hl">0</b> Locations</span>
+<span><b id="hs">0</b> States</span>
+</div>
+<div style="display:flex;gap:8px;align-items:center;margin-left:auto">
+<div class="vtog" id="viewToggle" role="tablist">
+<button class="vtog-btn" data-view="table" role="tab" onclick="setView('table')">Table</button>
+<button class="vtog-btn on" data-view="both" role="tab" onclick="setView('both')">Both</button>
+<button class="vtog-btn" data-view="map" role="tab" onclick="setView('map')">Map</button>
+<button class="vtog-btn" data-view="charts" role="tab" onclick="setView('charts')">Charts</button>
+</div>
+<button class="logout-btn" onclick="exportCSV()" title="Export CSV">&#8595; Export</button>
+<button class="logout-btn" onclick="resetApp()" title="Reset">&#x21bb; Reset</button>
+<button class="logout-btn" onclick="doLogout()">Sign Out</button>
 </div>
 </div>
-<div class="bar">
-<!-- Row 1: Search + Filters -->
-<!-- Row 1: Search + Type + States -->
-<div class="bar-row">
-<input type="text" id="si" placeholder="Search companies..." aria-label="Search companies">
-<div class="bar-group" style="border-left:none">
-<span class="bar-label">Ownership</span>
-<div class="state-pills" id="ownerPills">
+<!-- SPRINT 6: Print info -->
+<div class="print-info" id="printInfo">U.S. Propane Market Map &mdash; Ergon Corporate Development &mdash; Confidential</div>
+<!-- SPRINT 8: Mobile tabs -->
+<div class="mobile-tabs" id="mobileTabs" role="tablist">
+<button class="active" role="tab" onclick="setMobileView('table')">Table</button>
+<button role="tab" onclick="setMobileView('map')">Map</button>
+</div>
+<!-- ========== SIDEBAR + CONTENT LAYOUT ========== -->
+<div class="app-layout">
+<!-- LEFT SIDEBAR: Filters -->
+<div class="sidebar" id="sidebarFilters">
+<div class="sb-section">
+<input type="text" id="si" class="sb-search" placeholder="Search companies..." aria-label="Search companies">
+</div>
+<div class="sb-section">
+<div class="sb-title">Ownership</div>
+<div class="state-pills sb-pills" id="ownerPills">
 <span class="state-pill on" data-ow="ALL" onclick="toggleOwner('ALL')">All</span>
 <span class="state-pill" data-ow="public" onclick="toggleOwner('public')">Public</span>
 <span class="state-pill" data-ow="pe" onclick="toggleOwner('pe')">PE</span>
@@ -696,9 +734,9 @@ table.lt td{padding:var(--space-sm) var(--space-sm);min-height:var(--touch-min)}
 <span class="state-pill" data-ow="ll" onclick="toggleOwner('ll')">Ergon</span>
 </div>
 </div>
-<div class="bar-group">
-<span class="bar-label">Biz Type</span>
-<div class="state-pills" id="ctPills">
+<div class="sb-section">
+<div class="sb-title">Business Type</div>
+<div class="state-pills sb-pills" id="ctPills">
 <span class="state-pill on" data-ct="ALL" onclick="toggleCT('ALL')">All</span>
 <span class="state-pill" data-ct="retail_dealer" onclick="toggleCT('retail_dealer')">Retail</span>
 <span class="state-pill" data-ct="cylinder_exchange" onclick="toggleCT('cylinder_exchange')">Cylinder</span>
@@ -708,59 +746,45 @@ table.lt td{padding:var(--space-sm) var(--space-sm);min-height:var(--touch-min)}
 <span class="state-pill" data-ct="wholesale_transport" onclick="toggleCT('wholesale_transport')">Wholesale</span>
 </div>
 </div>
-</div>
-<!-- Row 2: Region + States -->
-<div class="bar-row" style="padding-top:0">
-<div class="bar-group" style="border-left:none;flex-shrink:0">
-<span class="bar-label">Region</span>
-<div class="state-pills" id="regionPills">
+<div class="sb-section">
+<div class="sb-title">Region</div>
+<div class="state-pills sb-pills" id="regionPills">
 <span class="state-pill on" data-rg="ALL" onclick="toggleRegion('ALL')">All US</span>
 <span class="state-pill" data-rg="southeast" onclick="toggleRegion('southeast')">Southeast</span>
 <span class="state-pill" data-rg="northeast" onclick="toggleRegion('northeast')">Northeast</span>
 <span class="state-pill" data-rg="midwest" onclick="toggleRegion('midwest')">Midwest</span>
-<span class="state-pill" data-rg="south_central" onclick="toggleRegion('south_central')">South Central</span>
+<span class="state-pill" data-rg="south_central" onclick="toggleRegion('south_central')">S. Central</span>
 <span class="state-pill" data-rg="west" onclick="toggleRegion('west')">West</span>
 </div>
+<div class="state-pills sb-pills" id="statePills" style="margin-top:8px"></div>
 </div>
-<div class="state-pills" id="statePills" style="flex-wrap:wrap;flex:1;min-width:0"></div>
-</div>
-<!-- Row 2: Layers + Tools + Checkboxes + Theme (single unified row) -->
-<div class="bar-row">
-<div class="bar-group" style="border-left:none">
-<button class="fbtn" id="clusterToggle" onclick="toggleCluster()">&#128204; Cluster Pins</button>
-<button class="fbtn" id="countyToggle" onclick="toggleCounty()">&#127760; County Data</button>
-<select class="fsel" id="countyMode" onchange="updateCountyLayer()" style="display:none">
+<div class="sb-section">
+<div class="sb-title">Map Layers</div>
+<div style="display:flex;flex-direction:column;gap:6px">
+<button class="fbtn sb-btn" id="clusterToggle" onclick="toggleCluster()">Cluster Pins</button>
+<button class="fbtn sb-btn" id="countyToggle" onclick="toggleCounty()">County Data</button>
+<select class="fsel" id="countyMode" onchange="updateCountyLayer()" style="display:none;width:100%;margin-top:4px">
 <option value="consumption">Total Consumption</option>
 <option value="customers">Residential Customers</option>
 <option value="percapita">Per Capita Usage</option>
 </select>
 </div>
-<div class="bar-group">
-<div style="position:relative;display:inline-block"><button class="fbtn" onclick="toggleSavesDropdown()" id="savedScenariosBtn">&#128190; Saved<span class="saved-count" id="savedCount" style="display:none">0</span></button><div class="saves-dropdown" id="savesDD"></div></div>
-<button class="fbtn" id="csvBtn" onclick="exportCSV()" title="Export current filtered table to CSV">Export CSV</button>
 </div>
-<div class="bar-group" style="gap:8px">
-<label class="iso-toggle"><input type="checkbox" id="isoToggle" onchange="go()" style="margin-right:3px;vertical-align:middle">Platform only</label>
-<label class="iso-toggle"><input type="checkbox" id="exToggle" onchange="go()" style="margin-right:3px;vertical-align:middle">Hide excluded</label>
-</div>
-<div class="bar-group">
-<label class="theme-tog"><div class="sw"><input type="checkbox" id="themeSwitch" onchange="toggleTheme()"><span class="sl"></span></div><span id="themeLabel">Light Mode</span></label>
+<div class="sb-section">
+<div class="sb-title">Options</div>
+<label class="sb-check"><input type="checkbox" id="isoToggle" onchange="go()"> Platform only</label>
+<label class="sb-check"><input type="checkbox" id="exToggle" onchange="go()"> Hide excluded</label>
+<div style="margin-top:8px">
+<div style="position:relative;display:inline-block;width:100%"><button class="fbtn sb-btn" onclick="toggleSavesDropdown()" id="savedScenariosBtn">Saved Scenarios<span class="saved-count" id="savedCount" style="display:none">0</span></button><div class="saves-dropdown" id="savesDD"></div></div>
 </div>
 </div>
+<div class="sb-section" style="border-bottom:none;margin-top:auto;padding:12px 16px">
+<label class="theme-tog"><div class="sw"><input type="checkbox" id="themeSwitch" onchange="toggleTheme()"><span class="sl"></span></div><span id="themeLabel">Light</span></label>
+<div style="font-size:9px;color:var(--text-tertiary);margin-top:8px">Updated April 2026</div>
 </div>
-<!-- SPRINT 6: Print info -->
-<div class="print-info" id="printInfo">U.S. Propane Market Map &mdash; Ergon Corporate Development &mdash; Confidential</div>
-<!-- === PRODUCT SPRINT B: View toggle (table/both/map) === -->
-<div class="view-toggle" id="viewToggle" role="tablist">
-<button class="vtog-btn" data-view="table" role="tab" aria-selected="false" onclick="setView('table')" title="Table only">&#128202; Table</button>
-<button class="vtog-btn active" data-view="both" role="tab" aria-selected="true" onclick="setView('both')" title="Split view">&#9638; Both</button>
-<button class="vtog-btn" data-view="map" role="tab" aria-selected="false" onclick="setView('map')" title="Map only">&#127760; Map</button>
-<button class="vtog-btn" data-view="charts" role="tab" aria-selected="false" onclick="setView('charts')" title="Charts dashboard">&#128200; Charts</button>
 </div>
-<!-- SPRINT 8: Mobile tabs (hidden on desktop, shown on mobile) -->
-<div class="mobile-tabs" id="mobileTabs" role="tablist">
-<button class="active" role="tab" aria-selected="true" onclick="setMobileView('table')">&#128202; Table</button>
-<button role="tab" aria-selected="false" onclick="setMobileView('map')">&#127760; Map</button>
+<!-- HIDDEN BAR for JS compatibility (filter bar chip display) -->
+<div class="bar" style="display:none">
 </div>
 <!-- === SPRINT 2: Active filter indicator bar === -->
 <div class="filter-bar" id="filterBar"></div>
@@ -836,6 +860,7 @@ table.lt td{padding:var(--space-sm) var(--space-sm);min-height:var(--touch-min)}
 </div>
 </div>
 </div><!-- close mainArea -->
+</div><!-- close app-layout -->
 <div class="po" id="po" onclick="cp()"></div>
 <div class="pp" id="pp" role="dialog" aria-modal="false" aria-label="Company profile detail panel">
 <div class="pp-h"><button class="pp-x" onclick="cp()">&#10005;</button><h2 id="pn"></h2><div class="sub" id="psub"></div></div>
