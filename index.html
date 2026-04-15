@@ -248,7 +248,8 @@ table.lt tbody tr.kb-sel{outline:2px solid var(--gold);outline-offset:-2px}
 .cm-ll{width:9px;height:9px;box-shadow:0 0 6px rgba(200,169,81,0.8),0 0 0 2px rgba(200,169,81,0.5)}
 .cm-ll-star{width:14px;height:14px;border-radius:50%;border:2px solid #fff;box-shadow:0 0 8px rgba(200,169,81,0.9),0 0 0 3px rgba(200,169,81,0.5);display:flex;align-items:center;justify-content:center;font-size:8px;color:#fff;line-height:1;z-index:900!important}
 /* === SPRINT E: Legend positioned bottom-right, collapsible, fully visible === */
-.legend{position:absolute;bottom:8px;right:8px;left:auto;background:var(--white);border-radius:var(--radius);padding:6px 10px;box-shadow:var(--shadow);z-index:800;font-size:9px;max-width:200px;max-height:calc(100% - 60px);overflow-y:auto;box-sizing:border-box;scrollbar-width:thin}
+.legend{position:absolute;bottom:8px;right:8px;left:auto;background:var(--white);border-radius:var(--radius-md);padding:6px 10px;box-shadow:var(--shadow);z-index:800;font-size:9px;max-width:200px;max-height:calc(100% - 60px);overflow-y:auto;box-sizing:border-box;scrollbar-width:thin;transition:bottom .3s}
+.pf-active .legend{bottom:60px} /* Move legend up when Pro Forma bar is active */
 .legend-toggle{display:flex;align-items:center;justify-content:space-between;cursor:pointer;margin-bottom:4px}
 .legend-toggle .arrow{font-size:8px;color:var(--slate);transition:transform 0.2s}
 .legend.collapsed .legend-body{display:none}
@@ -660,7 +661,7 @@ table.lt td{padding:var(--space-sm) var(--space-sm);min-height:var(--touch-min)}
 <li><span style="color:#8899AA;font-weight:400">GRAY (&lt;10)</span> &mdash; Monitor. Limited overlap with current platform.</li>
 </ul>
 <h4>Map Pin Legend</h4>
-<p><span style="color:#C8A951;font-weight:700">&#9733; Gold star</span> = Lampton Love locations &nbsp;|&nbsp; Colored dots = competitors by ownership type</p>
+<p><span style="color:#7C5CFC;font-weight:700">&#9679; Purple dot</span> = Lampton Love locations &nbsp;|&nbsp; Colored dots = competitors by ownership type</p>
 <h4>Keyboard Shortcuts</h4>
 <ul>
 <li><kbd>&#8593;</kbd> / <kbd>&#8595;</kbd> &mdash; Navigate table rows</li>
@@ -868,12 +869,12 @@ table.lt td{padding:var(--space-sm) var(--space-sm);min-height:var(--touch-min)}
 <!-- Dynamically populated by updateMapLegend() -->
 </div>
 <div class="legend-body" id="legendOwnershipList" style="display:none">
-<div class="li"><div class="d" style="background:#C8A951"></div>Lampton Love / Ergon</div>
-<div class="li"><div class="d" style="background:#1565C0"></div>Public Company</div>
-<div class="li"><div class="d" style="background:#F57F17"></div>PE-Backed</div>
-<div class="li"><div class="d" style="background:#2E7D32"></div>Family-Owned</div>
-<div class="li"><div class="d" style="background:#7B1FA2"></div>Cooperative</div>
-<div class="li"><div class="d" style="background:#546E7A"></div>Private / Other</div>
+<div class="li"><div class="d" style="background:#7C5CFC"></div>Lampton Love / Ergon</div>
+<div class="li"><div class="d" style="background:#175CD3"></div>Public Company</div>
+<div class="li"><div class="d" style="background:#6941C6"></div>PE-Backed</div>
+<div class="li"><div class="d" style="background:#027A48"></div>Family-Owned</div>
+<div class="li"><div class="d" style="background:#B54708"></div>Cooperative</div>
+<div class="li"><div class="d" style="background:#475467"></div>Private / Other</div>
 </div>
 <div class="county-legend" id="countyLegend" style="display:none">
 <h4>County Data</h4>
@@ -904,9 +905,10 @@ table.lt td{padding:var(--space-sm) var(--space-sm);min-height:var(--touch-min)}
 <span class="pf-title">Pro Forma Platform Builder</span>
 <span class="pf-stats" id="pfStats">Lampton-Love | 33 locations | 4 states</span>
 <div class="pf-actions">
-<button class="pf-act" onclick="event.stopPropagation();quickSave()" title="Quick save current platform">&#128190; Quick Save</button>
+<button class="pf-act" onclick="event.stopPropagation();quickSave()" title="Quick save current platform">&#128190; Save</button>
 <button class="pf-act" onclick="event.stopPropagation();sharePF()" title="Share via email">&#128279; Share</button>
 <button class="pf-act" onclick="togglePFFullscreen(event)">&#x26F6; Fullscreen</button>
+<button class="pf-act" onclick="event.stopPropagation();clearPlatform()" title="Clear all acquisitions and close" style="color:#ef4444;border-color:rgba(239,68,68,0.3)">&#10005; Clear All</button>
 </div>
 <span class="pf-expand">&#9650;</span>
 </div>
@@ -1532,9 +1534,9 @@ function updateMapLegend(companies){
   var el=document.getElementById('legendCompanyList');
   if(!el||mapColorMode!=='company')return;
   /* Show visible companies sorted by location count, max 30 */
-  var sorted=companies.slice().sort(function(a,b){return(b.seLocs||0)-(a.seLocs||0)}).slice(0,30);
+  var sorted=companies.slice().sort(function(a,b){return(b.locations.length||0)-(a.locations.length||0)}).slice(0,30);
   el.innerHTML=sorted.map(function(c){
-    return '<div class="li" style="cursor:pointer" onclick="op(\''+c.id+'\')" title="'+esc(c.name)+' — '+c.seLocs+' locations"><div class="d" style="background:'+getCompanyColor(c.id)+'"></div><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:120px;display:inline-block;vertical-align:middle">'+esc(c.name)+'</span> <span style="color:var(--slate);font-size:8px">('+c.seLocs+')</span></div>';
+    return '<div class="li" style="cursor:pointer" onclick="op(\''+c.id+'\')" title="'+esc(c.name)+' — '+c.locations.length+' locations"><div class="d" style="background:'+getCompanyColor(c.id)+'"></div><span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:120px;display:inline-block;vertical-align:middle">'+esc(c.name)+'</span> <span style="color:var(--text-tertiary);font-size:8px">('+c.locations.length+')</span></div>';
   }).join('')+(companies.length>30?'<div style="font-size:8px;color:var(--slate);margin-top:4px">+' +(companies.length-30)+' more</div>':'');
 }
 
@@ -2026,7 +2028,10 @@ function updatePF(){
   var pfStateLocs={},allStateLocs={};
   allCos.forEach(function(c){c.locations.forEach(function(l){pfStateLocs[l.state]=(pfStateLocs[l.state]||0)+1})});
   DATA.forEach(function(c){c.locations.forEach(function(l){allStateLocs[l.state]=(allStateLocs[l.state]||0)+1})});
-  document.getElementById('pfStats').textContent=allCos.length+' companies | '+totalLocs+' locations | '+allStates.length+' states | '+pfMarketPct+'% national market share';
+  /* Build top state market share summary for title bar */
+  var topStates=allStates.map(function(st){var pf=pfStateLocs[st]||0;var tot=allStateLocs[st]||0;return{st:st,pct:tot?Math.round(pf/tot*1000)/10:0}}).sort(function(a,b){return b.pct-a.pct}).slice(0,4);
+  var topStateStr=topStates.map(function(s){return s.st+':'+s.pct+'%'}).join(' | ');
+  document.getElementById('pfStats').textContent=allCos.length+' companies | '+totalLocs+' locs | '+pfMarketPct+'% natl | '+topStateStr;
   // Build bulk-add buttons for each filtered state
   let bulkBtns='';
   if(stateFilter.size>0){
@@ -2048,7 +2053,7 @@ function updatePF(){
       var totalGal=allCos.reduce(function(s,c){return s+(c.estAnnualGallons||0)},0);
       var totalEmp=allCos.reduce(function(s,c){return s+(c.employeeCount||0)},0);
       var llStates=ll?new Set(ll.states):new Set();
-      var th='<th style="text-align:right;padding:4px 3px;font-size:7px;color:var(--text-secondary);text-transform:uppercase;white-space:nowrap">';
+      var th='<th style="text-align:right;padding:5px 4px;font-size:9px;color:var(--text-secondary);text-transform:uppercase;white-space:nowrap">';
       /* Determine which regions the platform operates in */
       var activeRegions=[];
       var regionNames={southeast:'SE',northeast:'NE',midwest:'MW',south_central:'SC',west:'W'};
@@ -2059,25 +2064,25 @@ function updatePF(){
       /* Per-company regional market share helper */
       function coRegPct(cid,r){var cl=regionLocs[r][cid]||0;return regionTotal[r]?Math.round(cl/regionTotal[r]*1000)/10:0}
       return '<div style="margin-bottom:8px"><span style="font-size:11px;font-weight:600;color:var(--text-secondary)">Acquisition Impact Analysis</span></div>'+
-      '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:10px;margin-bottom:10px;min-width:600px">'+
-      '<thead><tr style="background:#F9FAFB"><th style="text-align:left;padding:4px 4px;font-size:7px;color:var(--text-secondary);text-transform:uppercase;min-width:120px">Company</th>'+th+'Locs</th>'+th+'Rev($M)</th>'+th+'Natl%</th>'+
+      '<div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:12px;margin-bottom:10px;min-width:600px">'+
+      '<thead><tr style="background:#F9FAFB"><th style="text-align:left;padding:6px 6px;font-size:9px;color:var(--text-secondary);text-transform:uppercase;min-width:120px">Company</th>'+th+'Locs</th>'+th+'Rev($M)</th>'+th+'Natl%</th>'+
       activeRegions.map(function(r){return th+regionNames[r]+'%</th>'}).join('')+
       th+'New St.</th><th style="width:14px"></th></tr></thead><tbody>'+
       /* Lampton Love base row */
-      '<tr style="background:var(--brand-muted)"><td style="padding:3px 4px;font-weight:600;color:var(--brand-dark);font-size:10px;white-space:nowrap">&#9733; Lampton-Love</td><td style="text-align:right;padding:3px 3px">'+(ll?ll.locations.length:0)+'</td><td style="text-align:right;padding:3px 3px">'+(ll&&ll.estRevenue?'$'+ll.estRevenue:'—')+'</td><td style="text-align:right;padding:3px 3px;color:var(--brand);font-weight:600">'+(ll?coMktShare[ll.id]:0)+'%</td>'+
-      activeRegions.map(function(r){return '<td style="text-align:right;padding:3px 3px;font-size:9px;color:var(--brand)">'+(ll?coRegPct(ll.id,r):0)+'%</td>'}).join('')+
-      '<td style="text-align:right;padding:3px 3px;font-size:9px;color:var(--text-tertiary)">—</td><td></td></tr>'+
+      '<tr style="background:var(--brand-muted)"><td style="padding:6px;font-weight:600;color:var(--brand-dark);white-space:nowrap">&#9733; Lampton-Love</td><td style="text-align:right;padding:6px 4px">'+(ll?ll.locations.length:0)+'</td><td style="text-align:right;padding:6px 4px">'+(ll&&ll.estRevenue?'$'+ll.estRevenue:'—')+'</td><td style="text-align:right;padding:6px 4px;color:var(--brand);font-weight:600">'+(ll?coMktShare[ll.id]:0)+'%</td>'+
+      activeRegions.map(function(r){return '<td style="text-align:right;padding:6px 4px;color:var(--brand)">'+(ll?coRegPct(ll.id,r):0)+'%</td>'}).join('')+
+      '<td style="text-align:right;padding:6px 4px;color:var(--text-tertiary)">—</td><td></td></tr>'+
       /* Acquisition rows */
       acqs.map(function(c){
         var newStates=c.states.filter(function(s){return !llStates.has(s)});
-        return '<tr style="border-bottom:1px solid var(--border-subtle)"><td style="padding:3px 4px;font-weight:500;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:140px" title="'+esc(c.name)+'">'+esc(c.name)+'</td><td style="text-align:right;padding:3px 3px">'+c.locations.length+'</td><td style="text-align:right;padding:3px 3px;color:var(--green)">'+(c.estRevenue?'$'+c.estRevenue:'—')+'</td><td style="text-align:right;padding:3px 3px;color:var(--brand);font-weight:600">'+(coMktShare[c.id]||0)+'%</td>'+
-        activeRegions.map(function(r){var p=coRegPct(c.id,r);return '<td style="text-align:right;padding:3px 3px;font-size:9px;color:'+(p>0?'var(--brand)':'var(--text-tertiary)')+'">'+(p>0?p+'%':'—')+'</td>'}).join('')+
-        '<td style="text-align:right;padding:3px 3px;font-size:9px;color:'+(newStates.length>0?'var(--green)':'var(--text-tertiary)')+'">'+( newStates.length>0?'+'+newStates.length:'0')+'</td><td><button onclick="togglePlatform(\''+c.id+'\')" style="width:14px;height:14px;border-radius:50%;border:none;background:rgba(198,40,40,0.08);color:var(--red);font-size:8px;cursor:pointer;display:flex;align-items:center;justify-content:center">&#10005;</button></td></tr>';
+        return '<tr style="border-bottom:1px solid var(--border-subtle)"><td style="padding:6px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:140px" title="'+esc(c.name)+'">'+esc(c.name)+'</td><td style="text-align:right;padding:6px 4px">'+c.locations.length+'</td><td style="text-align:right;padding:6px 4px;color:var(--green)">'+(c.estRevenue?'$'+c.estRevenue:'—')+'</td><td style="text-align:right;padding:6px 4px;color:var(--brand);font-weight:600">'+(coMktShare[c.id]||0)+'%</td>'+
+        activeRegions.map(function(r){var p=coRegPct(c.id,r);return '<td style="text-align:right;padding:6px 4px;color:'+(p>0?'var(--brand)':'var(--text-tertiary)')+'">'+(p>0?p+'%':'—')+'</td>'}).join('')+
+        '<td style="text-align:right;padding:6px 4px;color:'+(newStates.length>0?'var(--green)':'var(--text-tertiary)')+'">'+( newStates.length>0?'+'+newStates.length:'0')+'</td><td><button onclick="togglePlatform(\''+c.id+'\')" style="padding:2px 8px;border-radius:4px;border:1px solid rgba(198,40,40,0.2);background:rgba(198,40,40,0.05);color:var(--red);font-size:10px;cursor:pointer;font-family:var(--font-sans)">Delete</button></td></tr>';
       }).join('')+
       /* Pro Forma Total row */
-      '<tr style="background:#F9FAFB;font-weight:700;border-top:2px solid var(--brand)"><td style="padding:4px 4px;font-size:10px">Pro Forma Total</td><td style="text-align:right;padding:4px 3px">'+totalLocs+'</td><td style="text-align:right;padding:4px 3px;color:var(--green)">$'+totalRev.toFixed(1)+'</td><td style="text-align:right;padding:4px 3px;color:var(--brand);font-weight:700;font-size:11px">'+pfMarketPct+'%</td>'+
-      activeRegions.map(function(r){return '<td style="text-align:right;padding:4px 3px;color:var(--brand);font-weight:700;font-size:10px">'+pfRegionPct[r]+'%</td>'}).join('')+
-      '<td style="text-align:right;padding:4px 3px;font-size:9px;font-weight:700">'+allStates.length+'</td><td></td></tr></tbody></table></div>'+
+      '<tr style="background:#F9FAFB;font-weight:700;border-top:2px solid var(--brand)"><td style="padding:6px">Pro Forma Total</td><td style="text-align:right;padding:6px 4px">'+totalLocs+'</td><td style="text-align:right;padding:6px 4px;color:var(--green)">$'+totalRev.toFixed(1)+'</td><td style="text-align:right;padding:6px 4px;color:var(--brand);font-weight:700;font-size:13px">'+pfMarketPct+'%</td>'+
+      activeRegions.map(function(r){return '<td style="text-align:right;padding:6px 4px;color:var(--brand);font-weight:700">'+pfRegionPct[r]+'%</td>'}).join('')+
+      '<td style="text-align:right;padding:6px 4px;font-weight:700">'+allStates.length+'</td><td></td></tr></tbody></table></div>'+
       /* SPRINT E: Incremental impact summary */
       '<div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px;padding:10px;background:#F9FAFB;border-radius:var(--radius-md);border:1px solid var(--border-subtle)">'+
       '<div><div style="font-size:9px;text-transform:uppercase;color:var(--text-tertiary);letter-spacing:0.3px">Rev. Uplift vs Base</div><div style="font-size:16px;font-weight:700;color:var(--green);font-family:var(--font-mono)">'+(ll&&ll.estRevenue&&totalRev>ll.estRevenue?'+'+((totalRev/ll.estRevenue-1)*100).toFixed(0)+'%':'—')+'</div></div>'+
@@ -2111,6 +2116,12 @@ function updatePF(){
   setTimeout(()=>map.invalidateSize(),50);
 }
 
+function clearPlatform(){
+  platform=[];
+  _proxCacheKey='__FORCE__';
+  computeProxScores();updatePF();render();updateMap();
+  showToast('Platform cleared');
+}
 function bulkAddState(st){
   let targets=DATA.filter(c=>!c.excluded&&c.id!==LL_ID&&!platform.includes(c.id)&&c.states.includes(st));
   targets.forEach(c=>platform.push(c.id));
