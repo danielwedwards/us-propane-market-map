@@ -5,6 +5,9 @@
 <!-- === SPRINT 9: viewport-fit for notched phones === -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#0D1B2A">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta http-equiv="Pragma" content="no-cache">
+<meta http-equiv="Expires" content="0">
 <title>U.S. Propane Market Map | Ergon Corporate Development</title>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
@@ -1533,7 +1536,7 @@ function render(){try{
 
 // === MAP ===
 function initMap(){
-  map=L.map('map',{center:CONFIG.CENTER,zoom:CONFIG.ZOOM,preferCanvas:true,renderer:L.canvas({tolerance:10})});
+  map=L.map('map',{center:CONFIG.CENTER,zoom:CONFIG.ZOOM,preferCanvas:true,renderer:L.canvas({tolerance:15})});
   L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{attribution:'&copy; OSM &copy; CARTO',maxZoom:19}).addTo(map);
   mcg=L.layerGroup();map.addLayer(mcg); /* Individual pins by default. Use Cluster Pins button to enable clustering. */
   [{n:'MS',la:32.7,lo:-89.7},{n:'AL',la:32.8,lo:-86.8},{n:'LA',la:31,lo:-92},{n:'TN',la:35.8,lo:-86.4},{n:'AR',la:34.8,lo:-92.4},{n:'GA',la:32.7,lo:-83.5},{n:'SC',la:33.9,lo:-80.9},{n:'NC',la:35.5,lo:-79.8},{n:'VA',la:37.5,lo:-79},{n:'FL',la:28.5,lo:-82.5},{n:'KY',la:37.8,lo:-85.7}]
