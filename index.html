@@ -1015,6 +1015,7 @@ function setMobileView(view){
 /* === PRODUCT SPRINT B: Desktop view toggle === */
 function setView(view){
   let main=document.getElementById('mainArea');
+  let prevHadMap=main.classList.contains('view-map')||(!main.classList.contains('view-table')&&!main.classList.contains('view-charts'));
   main.classList.remove('view-table','view-map','view-charts');
   if(view==='table')main.classList.add('view-table');
   else if(view==='map')main.classList.add('view-map');
@@ -1025,8 +1026,22 @@ function setView(view){
     btn.classList.toggle('active',isActive);
     btn.setAttribute('aria-selected',isActive?'true':'false');
   });
-  // Invalidate map size after layout change
-  setTimeout(()=>{if(typeof map!=='undefined'&&map)map.invalidateSize()},150);
+  // Invalidate map size after layout change, then reset zoom when entering a view that shows the map
+  setTimeout(()=>{
+    if(typeof map==='undefined'||!map)return;
+    map.invalidateSize();
+    if((view==='map'||view==='both')&&!prevHadMap)resetMapToScope();
+  },150);
+}
+/* Reset map to current filter scope (or continental US) so it isn't stuck zoomed-in on a previously opened company. */
+function resetMapToScope(){
+  if(typeof map==='undefined'||!map)return;
+  if(stateFilter.size>0&&_allMarkers&&_allMarkers.length){
+    var b=L.latLngBounds([]);
+    _allMarkers.forEach(function(mk){if(stateFilter.has(mk._st))b.extend(mk.getLatLng())});
+    if(b.isValid()){map.fitBounds(b,{padding:[40,40],maxZoom:8});return}
+  }
+  map.setView(CONFIG.CENTER,CONFIG.ZOOM);
 }
 
 /* === SPRINT 8: DOM cache === */
@@ -2579,7 +2594,7 @@ function renderCharts(){
   var defaultBarColor=new echarts.graphic.LinearGradient(0,0,1,0,[{offset:0,color:'#C4B5FD'},{offset:1,color:'#7C5CFC'}]);
   var llBarColor=new echarts.graphic.LinearGradient(0,0,1,0,[{offset:0,color:'#FCD34D'},{offset:1,color:'#F59E0B'}]);
   var locReversed=locCos.slice().reverse();
-  var yLabels=locReversed.map(function(c){return c.id===LL_ID?'★ '+c.name+' (Lampton Love)':c.name});
+  var yLabels=locReversed.map(function(c){return c.id===LL_ID?'★ '+c.name:c.name});
   ch2.setOption({tooltip:Object.assign({trigger:'axis',formatter:function(p){var co=locCos[locCos.length-1-p[0].dataIndex];return '<b>'+(co?co.name:p[0].name)+'</b><br>'+p[0].value+' locations'+(co&&co.estRevenue?'<br>$'+co.estRevenue+'M revenue':'')+'<br><span style="color:#98A2B3;font-size:10px">Click to view profile</span>'}},tipStyle),grid:{left:200,right:60,top:16,bottom:32},xAxis:{type:'value',axisLabel:{fontSize:12,color:isDark?'#8899AA':'#98A2B3'},splitLine:{lineStyle:{color:isDark?'#1e2e3e':'#F0F2F5'}},axisLine:{show:false}},yAxis:{type:'category',data:yLabels,axisLabel:{fontSize:12,color:isDark?'#c0c8d4':'#344054',width:190,overflow:'truncate',margin:12,formatter:function(v){return v},rich:{}},axisLine:{show:false},axisTick:{show:false}},series:[{type:'bar',data:locReversed.map(function(c){var isLL=c.id===LL_ID;return{value:c.filtLocs,itemStyle:{color:isLL?llBarColor:defaultBarColor,borderRadius:[0,6,6,0],shadowColor:isLL?'rgba(245,158,11,0.45)':'transparent',shadowBlur:isLL?10:0}}}),barWidth:20,label:{show:true,position:'right',fontSize:11,color:isDark?'#c0c8d4':'#475467',fontWeight:600},cursor:'pointer'}]});
   ch2.on('click',function(params){var idx=locCos.length-1-params.dataIndex;if(locCos[idx]){op(locCos[idx].id)}});
   chartInstances.push(ch2)}
