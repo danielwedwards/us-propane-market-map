@@ -903,9 +903,10 @@ table.lt td{padding:var(--space-sm) var(--space-sm);min-height:var(--touch-min)}
 <!-- Charts Grid -->
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
 <div class="chart-card"><div class="chart-header"><h3>Companies by Ownership</h3><span class="chart-badge" id="chartOwnerCount"></span></div><div id="chartOwnership" style="height:360px"></div></div>
-<div class="chart-card"><div class="chart-header"><h3 id="chartLocTitle">Top 25 by Location Count</h3></div><div id="chartLocations" style="height:360px"></div></div>
 <div class="chart-card"><div class="chart-header"><h3>Companies by Business Type</h3><span class="chart-badge" id="chartBizCount"></span></div><div id="chartBizType" style="height:360px"></div></div>
-<div class="chart-card"><div class="chart-header"><h3>Top 15 States by Company Count</h3></div><div id="chartStates" style="height:360px"></div></div>
+</div>
+<div style="display:grid;grid-template-columns:1fr;gap:20px;margin-top:20px">
+<div class="chart-card"><div class="chart-header"><h3 id="chartLocTitle">Top 25 by Location Count</h3></div><div id="chartLocations" style="height:780px"></div></div>
 </div>
 </div>
 </div><!-- close mainArea -->
@@ -1579,9 +1580,9 @@ function buildMarkerCache(){
         interactive:true,
         bubblingMouseEvents:false
       });
-      mk.bindPopup('<div class="mp"><h3>'+esc(c.name)+'</h3><div class="sub">'+esc(l.name||c.name)+' &mdash; '+esc(l.city||'')+', '+esc(l.state||'')+'</div><button class="vf" onclick="op(\''+c.id+'\')">View Full Profile &rarr;</button></div>',{maxWidth:280,minWidth:200,autoClose:true,closeOnClick:true});
-      mk.bindTooltip('<b>'+esc(c.name)+'</b><br>'+esc(l.city||'')+', '+esc(l.state||''),{direction:'top',className:'propane-tip',opacity:0.95});
+      mk.bindTooltip('<b>'+esc(c.name)+'</b><br>'+esc(l.city||'')+', '+esc(l.state||'')+'<br><span style="color:#98A2B3;font-size:10px">Click to view profile</span>',{direction:'top',className:'propane-tip',opacity:0.95});
       mk._cid=c.id;mk._st=l.state||'';mk._isLL=isLL;mk._col=isLL?'#7C5CFC':col;
+      mk.on('click',function(e){if(e&&e.originalEvent){L.DomEvent.stopPropagation(e.originalEvent);L.DomEvent.preventDefault(e.originalEvent)}op(c.id)});
       mks.push(mk);_allMarkers.push(mk);
     });
     _markerCache[c.id]=mks;
@@ -2544,8 +2545,8 @@ function renderCharts(){
     '<div class="kpi-card"><div class="kpi-label">Avg. Locs per Company</div><div class="kpi-value">'+(allCompanies.length?Math.round(totalLocs/allCompanies.length):0)+'</div><div class="kpi-sub">platform density</div></div>'}
 
   /* Badge counts */
-  var owBadge=document.getElementById('chartOwnerCount');if(owBadge)owBadge.textContent=allCompanies.length+' cos';
-  var btBadge=document.getElementById('chartBizCount');if(btBadge)btBadge.textContent=allCompanies.length+' cos';
+  var owBadge=document.getElementById('chartOwnerCount');if(owBadge)owBadge.textContent=allCompanies.length+' companies';
+  var btBadge=document.getElementById('chartBizCount');if(btBadge)btBadge.textContent=allCompanies.length+' companies';
 
   /* Shared tooltip style */
   var tipStyle={backgroundColor:isDark?'#1e2e3e':'#fff',borderColor:isDark?'#2a3a4e':'#E4E7EC',textStyle:{fontFamily:'Inter,sans-serif',fontSize:12,color:isDark?'#e0e4ea':'#101828'},padding:[10,14],borderRadius:8,borderWidth:1,extraCssText:'box-shadow:0 4px 16px rgba(0,0,0,0.08)'};
@@ -2564,7 +2565,7 @@ function renderCharts(){
   var titleEl=document.getElementById('chartLocTitle');if(titleEl)titleEl.textContent='Top 25 by Location Count'+(stateFilter.size>0?' ('+[...stateFilter].join(', ')+')':'');
   var ch2El=document.getElementById('chartLocations');
   if(ch2El){var ch2=echarts.init(ch2El,theme);
-  ch2.setOption({tooltip:Object.assign({trigger:'axis',formatter:function(p){var co=locCos[locCos.length-1-p[0].dataIndex];return '<b>'+p[0].name+'</b><br>'+p[0].value+' locations'+(co&&co.estRevenue?'<br>$'+co.estRevenue+'M revenue':'')+'<br><span style="color:#98A2B3;font-size:10px">Click to view profile</span>'}},tipStyle),grid:{left:150,right:24,top:8,bottom:24},xAxis:{type:'value',axisLabel:{fontSize:11,color:isDark?'#8899AA':'#98A2B3'},splitLine:{lineStyle:{color:isDark?'#1e2e3e':'#F0F2F5'}},axisLine:{show:false}},yAxis:{type:'category',data:locCos.map(function(c){return c.name}).reverse(),axisLabel:{fontSize:11,color:isDark?'#c0c8d4':'#344054',width:140,overflow:'truncate'},axisLine:{show:false},axisTick:{show:false}},series:[{type:'bar',data:locCos.map(function(c){return c.filtLocs}).reverse(),itemStyle:{color:new echarts.graphic.LinearGradient(0,0,1,0,[{offset:0,color:'#C4B5FD'},{offset:1,color:'#7C5CFC'}]),borderRadius:[0,6,6,0]},barWidth:16,cursor:'pointer'}]});
+  ch2.setOption({tooltip:Object.assign({trigger:'axis',formatter:function(p){var co=locCos[locCos.length-1-p[0].dataIndex];return '<b>'+p[0].name+'</b><br>'+p[0].value+' locations'+(co&&co.estRevenue?'<br>$'+co.estRevenue+'M revenue':'')+'<br><span style="color:#98A2B3;font-size:10px">Click to view profile</span>'}},tipStyle),grid:{left:200,right:60,top:16,bottom:32},xAxis:{type:'value',axisLabel:{fontSize:12,color:isDark?'#8899AA':'#98A2B3'},splitLine:{lineStyle:{color:isDark?'#1e2e3e':'#F0F2F5'}},axisLine:{show:false}},yAxis:{type:'category',data:locCos.map(function(c){return c.name}).reverse(),axisLabel:{fontSize:12,color:isDark?'#c0c8d4':'#344054',width:190,overflow:'truncate',margin:12},axisLine:{show:false},axisTick:{show:false}},series:[{type:'bar',data:locCos.map(function(c){return c.filtLocs}).reverse(),itemStyle:{color:new echarts.graphic.LinearGradient(0,0,1,0,[{offset:0,color:'#C4B5FD'},{offset:1,color:'#7C5CFC'}]),borderRadius:[0,6,6,0]},barWidth:20,label:{show:true,position:'right',fontSize:11,color:isDark?'#c0c8d4':'#475467',fontWeight:600},cursor:'pointer'}]});
   ch2.on('click',function(params){var idx=locCos.length-1-params.dataIndex;if(locCos[idx]){op(locCos[idx].id)}});
   chartInstances.push(ch2)}
 
@@ -2575,15 +2576,6 @@ function renderCharts(){
   if(ch3El){var ch3=echarts.init(ch3El,theme);
   ch3.setOption({tooltip:Object.assign({trigger:'item',formatter:'{b}<br><b>{c}</b> companies ({d}%)'},tipStyle),legend:{bottom:0,textStyle:{fontSize:11,color:isDark?'#8899AA':'#475467'},itemWidth:10,itemHeight:10,itemGap:12},series:[{type:'pie',radius:['48%','74%'],center:['50%','45%'],itemStyle:{borderRadius:8,borderColor:cardBg,borderWidth:3},label:{show:false},emphasis:{label:{show:true,fontSize:13,fontWeight:600}},data:Object.entries(btCounts).map(function(e){return{name:e[0],value:e[1]}})}],color:['#7C5CFC','#3B82F6','#F59E0B','#475467','#EF4444','#10B981']});
   chartInstances.push(ch3)}
-
-  // 4. Top 15 States Bar
-  var stCounts={};
-  allCompanies.forEach(function(c){c.states.forEach(function(s){stCounts[s]=(stCounts[s]||0)+1})});
-  var stSorted=Object.entries(stCounts).sort(function(a,b){return b[1]-a[1]}).slice(0,15);
-  var ch4El=document.getElementById('chartStates');
-  if(ch4El){var ch4=echarts.init(ch4El,theme);
-  ch4.setOption({tooltip:Object.assign({trigger:'axis'},tipStyle),grid:{left:44,right:24,top:8,bottom:24},xAxis:{type:'category',data:stSorted.map(function(e){return e[0]}),axisLabel:{fontSize:11,color:isDark?'#8899AA':'#475467'},axisLine:{lineStyle:{color:isDark?'#2a3a4e':'#E4E7EC'}},axisTick:{show:false}},yAxis:{type:'value',axisLabel:{fontSize:11,color:isDark?'#8899AA':'#98A2B3'},splitLine:{lineStyle:{color:isDark?'#1e2e3e':'#F0F2F5'}},axisLine:{show:false}},series:[{type:'bar',data:stSorted.map(function(e){return e[1]}),itemStyle:{color:new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:'#7C5CFC'},{offset:1,color:'#C4B5FD'}]),borderRadius:[6,6,0,0]},barWidth:24}]});
-  chartInstances.push(ch4)}
 
   setTimeout(function(){chartInstances.forEach(function(c){try{c.resize()}catch(e){}})},100);
 }
