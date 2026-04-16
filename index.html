@@ -205,7 +205,7 @@ table.lt th.sorted{color:var(--brand)}
 table.lt th:hover{background:#F0F2F5}
 table.lt th .sort-arrow{font-size:8px;margin-left:2px;opacity:0.3}
 table.lt th.sorted .sort-arrow{opacity:1;color:var(--brand)}
-.th-sub{display:block;font-size:8px;font-weight:400;letter-spacing:0;text-transform:none;opacity:0.5;line-height:1;margin-top:2px}
+.th-sub{display:block;font-size:9px;font-weight:400;letter-spacing:0;text-transform:none;opacity:0.5;line-height:1;margin-top:2px}
 /* Modern SaaS table rows */
 table.lt td{padding:10px 8px;border-bottom:1px solid var(--border-subtle);vertical-align:middle;overflow:hidden;text-overflow:ellipsis;text-align:center;font-size:var(--text-sm)}
 table.lt td:nth-child(4){text-align:left} /* Company name left-aligned */
@@ -260,7 +260,7 @@ table.lt tbody tr.kb-sel{outline:2px solid var(--gold);outline-offset:-2px}
 .county-legend{margin-top:8px;padding-top:8px;border-top:1px solid var(--border)}
 .county-legend .scale{display:flex;height:8px;border-radius:2px;overflow:hidden;margin:4px 0}
 .county-legend .scale div{flex:1}
-.county-legend .labels{display:flex;justify-content:space-between;font-size:8px;color:var(--slate)}
+.county-legend .labels{display:flex;justify-content:space-between;font-size:9px;color:var(--text-tertiary)}
 .county-legend .mode-label{font-size:9px;color:var(--navy);font-weight:600;margin-bottom:2px}
 .slbl{background:none!important;border:none!important;box-shadow:none!important;font-family:var(--font-sans);font-size:10px;font-weight:600;color:var(--navy-mid);opacity:0.35;letter-spacing:1px}
 /* === SPRINT 9: will-change for GPU acceleration === */
@@ -573,9 +573,21 @@ table.lt td{padding:var(--space-sm) var(--space-sm);min-height:var(--touch-min)}
 .tippy-box[data-theme~='propane']{background:var(--navy);color:#fff;font-size:11px;border-radius:var(--radius-md);box-shadow:var(--shadow-lg)}
 .tippy-box[data-theme~='propane'] .tippy-arrow{color:var(--navy)}
 /* === SPRINT I: Charts dashboard view === */
-.charts-wrap{display:none;flex:1;overflow-y:auto;padding:24px;background:var(--light-bg)}
-.charts-wrap h3{font-family:var(--font-sans)!important;font-size:13px!important;font-weight:600!important;color:var(--text-secondary)!important;letter-spacing:0.02em!important;text-transform:none!important;margin-bottom:16px!important}
-.charts-wrap>div>div{border-radius:var(--radius-lg)!important;border:1px solid var(--border)!important;box-shadow:none!important}
+.charts-wrap{display:none;flex:1;overflow-y:auto;padding:28px;background:var(--light-bg)}
+/* BRIX-inspired chart cards */
+.chart-card{background:#fff;border-radius:12px;padding:24px;border:1px solid var(--border-subtle);transition:box-shadow .2s}
+.chart-card:hover{box-shadow:0 4px 16px rgba(0,0,0,0.04)}
+.chart-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.chart-header h3{font-family:var(--font-sans);font-size:14px;font-weight:600;color:var(--text-primary);letter-spacing:-0.2px;margin:0}
+.chart-badge{font-size:11px;font-weight:600;color:var(--brand);background:var(--brand-light);padding:2px 10px;border-radius:var(--radius-full);font-family:var(--font-mono)}
+/* KPI summary cards above charts */
+.kpi-card{background:#fff;border-radius:12px;padding:20px 24px;border:1px solid var(--border-subtle)}
+.kpi-card .kpi-label{font-size:12px;font-weight:500;color:var(--text-tertiary);margin-bottom:4px}
+.kpi-card .kpi-value{font-size:28px;font-weight:700;color:var(--text-primary);font-family:var(--font-mono);letter-spacing:-0.5px;line-height:1.2}
+.kpi-card .kpi-sub{font-size:11px;color:var(--text-tertiary);margin-top:4px}
+.kpi-card .kpi-delta{font-size:12px;font-weight:600;margin-top:4px}
+.kpi-card .kpi-delta.up{color:var(--green)}
+.kpi-card .kpi-delta.down{color:var(--red)}
 .main.view-charts{overflow:auto!important;flex:1 1 auto!important;min-height:0!important}
 .main.view-charts .left,.main.view-charts .rh,.main.view-charts .map-wrap{display:none!important}
 .main.view-charts .charts-wrap{display:block!important}
@@ -886,11 +898,14 @@ table.lt td{padding:var(--space-sm) var(--space-sm);min-height:var(--touch-min)}
 </div>
 </div>
 <div class="charts-wrap" id="chartsWrap">
+<!-- KPI Summary Cards -->
+<div id="chartKPIs" style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px"></div>
+<!-- Charts Grid -->
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
-<div style="background:var(--white);border-radius:var(--radius-lg);padding:20px;border:1px solid var(--border)"><h3>Companies by Ownership Type</h3><div id="chartOwnership" style="height:380px"></div></div>
-<div style="background:var(--white);border-radius:var(--radius-lg);padding:20px;border:1px solid var(--border)"><h3 id="chartLocTitle">Top 25 Companies by Locations</h3><div id="chartLocations" style="height:380px"></div></div>
-<div style="background:var(--white);border-radius:var(--radius-lg);padding:20px;border:1px solid var(--border)"><h3>Companies by Business Type</h3><div id="chartBizType" style="height:380px"></div></div>
-<div style="background:var(--white);border-radius:var(--radius-lg);padding:20px;border:1px solid var(--border)"><h3>Top 15 States by Company Count</h3><div id="chartStates" style="height:380px"></div></div>
+<div class="chart-card"><div class="chart-header"><h3>Companies by Ownership</h3><span class="chart-badge" id="chartOwnerCount"></span></div><div id="chartOwnership" style="height:360px"></div></div>
+<div class="chart-card"><div class="chart-header"><h3 id="chartLocTitle">Top 25 by Location Count</h3></div><div id="chartLocations" style="height:360px"></div></div>
+<div class="chart-card"><div class="chart-header"><h3>Companies by Business Type</h3><span class="chart-badge" id="chartBizCount"></span></div><div id="chartBizType" style="height:360px"></div></div>
+<div class="chart-card"><div class="chart-header"><h3>Top 15 States by Company Count</h3></div><div id="chartStates" style="height:360px"></div></div>
 </div>
 </div>
 </div><!-- close mainArea -->
@@ -2509,50 +2524,68 @@ function sendShareEmail(){
 /* === SPRINT I: ECharts dashboard === */
 var chartInstances=[];
 function renderCharts(){
-  chartInstances.forEach(function(c){c.dispose()});
+  chartInstances.forEach(function(c){try{c.dispose()}catch(e){}});
   chartInstances=[];
-  /* Use fil() for state/type/search filtering but do NOT exclude companies based on excluded flag */
-  var allCompanies=DATA.filter(function(c){
-    if(ownerFilter.size>0&&!ownerFilter.has(c.ownership))return false;
-    if(ctFilter.size>0&&!ctFilter.has(c.companyType||'retail_dealer'))return false;
-    if(stateFilter.size>0&&!c.states.some(function(s){return stateFilter.has(s)}))return false;
-    if(searchQuery){var q=searchQuery.toLowerCase(),s=[c.name,c.hqCity,c.hqState,c.ownerDetail,c.parentGroup,...c.states].filter(Boolean).join(' ').toLowerCase();if(!s.includes(q))return false}
-    return true;
-  });
+  /* Apply current filters */
+  var allCompanies=fil();
   var isDark=document.documentElement.dataset.theme==='dark';
   var theme=isDark?'dark':null;
-  // 1. Ownership Type Pie — clickable to filter by type
-  var ownerCounts={};
-  var ownerKeys={};
+  var cardBg=isDark?'#16202e':'#fff';
+  var totalLocs=allCompanies.reduce(function(s,c){return s+c.locations.length},0);
+  var totalRev=allCompanies.reduce(function(s,c){return s+(c.estRevenue||0)},0);
+  var totalStates=new Set(allCompanies.flatMap(function(c){return c.states})).size;
+
+  /* KPI Summary Cards */
+  var kpiEl=document.getElementById('chartKPIs');
+  if(kpiEl){kpiEl.innerHTML=
+    '<div class="kpi-card"><div class="kpi-label">Total Companies</div><div class="kpi-value">'+allCompanies.length.toLocaleString()+'</div><div class="kpi-sub">matching current filters</div></div>'+
+    '<div class="kpi-card"><div class="kpi-label">Total Locations</div><div class="kpi-value">'+totalLocs.toLocaleString()+'</div><div class="kpi-sub">across '+totalStates+' states</div></div>'+
+    '<div class="kpi-card"><div class="kpi-label">Est. Total Revenue</div><div class="kpi-value" style="color:var(--green)">$'+totalRev.toLocaleString()+'M</div><div class="kpi-sub">combined estimate</div></div>'+
+    '<div class="kpi-card"><div class="kpi-label">Avg. Locs per Company</div><div class="kpi-value">'+(allCompanies.length?Math.round(totalLocs/allCompanies.length):0)+'</div><div class="kpi-sub">platform density</div></div>'}
+
+  /* Badge counts */
+  var owBadge=document.getElementById('chartOwnerCount');if(owBadge)owBadge.textContent=allCompanies.length+' cos';
+  var btBadge=document.getElementById('chartBizCount');if(btBadge)btBadge.textContent=allCompanies.length+' cos';
+
+  /* Shared tooltip style */
+  var tipStyle={backgroundColor:isDark?'#1e2e3e':'#fff',borderColor:isDark?'#2a3a4e':'#E4E7EC',textStyle:{fontFamily:'Inter,sans-serif',fontSize:12,color:isDark?'#e0e4ea':'#101828'},padding:[10,14],borderRadius:8,borderWidth:1,extraCssText:'box-shadow:0 4px 16px rgba(0,0,0,0.08)'};
+
+  // 1. Ownership Donut
+  var ownerCounts={},ownerKeys={};
   allCompanies.forEach(function(c){var label=OL[c.ownership];ownerCounts[label]=(ownerCounts[label]||0)+1;ownerKeys[label]=c.ownership});
-  var ch1=echarts.init(document.getElementById('chartOwnership'),theme);
-  ch1.setOption({tooltip:{trigger:'item',formatter:'{b}: {c} ({d}%)'},series:[{type:'pie',radius:['40%','70%'],itemStyle:{borderRadius:6,borderColor:isDark?'#16202e':'#fff',borderWidth:2},label:{show:true,fontSize:11},data:Object.entries(ownerCounts).map(function(e){return{name:e[0],value:e[1]}}),cursor:'pointer'}],color:['#175CD3','#6941C6','#027A48','#B54708','#475467','#7C5CFC']});
+  var ch1El=document.getElementById('chartOwnership');
+  if(ch1El){var ch1=echarts.init(ch1El,theme);
+  ch1.setOption({tooltip:Object.assign({trigger:'item',formatter:'{b}<br><b>{c}</b> companies ({d}%)'},tipStyle),legend:{bottom:0,textStyle:{fontSize:11,color:isDark?'#8899AA':'#475467'},itemWidth:10,itemHeight:10,itemGap:12},series:[{type:'pie',radius:['48%','74%'],center:['50%','45%'],itemStyle:{borderRadius:8,borderColor:cardBg,borderWidth:3},label:{show:false},emphasis:{label:{show:true,fontSize:13,fontWeight:600}},data:Object.entries(ownerCounts).map(function(e){return{name:e[0],value:e[1]}}),cursor:'pointer'}],color:['#175CD3','#6941C6','#027A48','#B54708','#475467','#7C5CFC']});
   ch1.on('click',function(params){var owKey=ownerKeys[params.name];if(owKey){toggleOwner(owKey);setView('table')}});
-  chartInstances.push(ch1);
-  // 2. Top 25 by Locations Bar — ALL companies, clickable to open profile
+  chartInstances.push(ch1)}
+
+  // 2. Top 25 Locations Bar
   var locCos=allCompanies.map(function(c){var filtLocs=stateFilter.size>0?c.locations.filter(function(l){return stateFilter.has(l.state)}).length:c.locations.length;return Object.assign({},c,{filtLocs:filtLocs})}).sort(function(a,b){return(b.filtLocs||0)-(a.filtLocs||0)}).slice(0,25);
-  var titleEl=document.getElementById('chartLocTitle');if(titleEl)titleEl.textContent='Top 25 Companies by Locations'+(stateFilter.size>0?' in '+[...stateFilter].join(', '):'');
-  var ch2=echarts.init(document.getElementById('chartLocations'),theme);
-  ch2.setOption({tooltip:{trigger:'axis',formatter:function(p){var co=locCos[locCos.length-1-p[0].dataIndex];return '<b>'+p[0].name+'</b><br>'+p[0].value+' locations'+(stateFilter.size>0?' in '+[...stateFilter].join(', '):'')+(co&&co.estRevenue?'<br>$'+co.estRevenue+'M est. revenue':'')+(co?'<br><span style="color:#8899AA;font-size:10px">Click to view profile</span>':'')}},grid:{left:140,right:30,top:10,bottom:30},xAxis:{type:'value',axisLabel:{fontSize:9}},yAxis:{type:'category',data:locCos.map(function(c){return c.name}).reverse(),axisLabel:{fontSize:9,width:130,overflow:'truncate'}},series:[{type:'bar',data:locCos.map(function(c){return c.filtLocs}).reverse(),itemStyle:{color:new echarts.graphic.LinearGradient(0,0,1,0,[{offset:0,color:'#C4B5FD'},{offset:1,color:'#7C5CFC'}]),borderRadius:[0,4,4,0]},barWidth:14,cursor:'pointer'}]});
+  var titleEl=document.getElementById('chartLocTitle');if(titleEl)titleEl.textContent='Top 25 by Location Count'+(stateFilter.size>0?' ('+[...stateFilter].join(', ')+')':'');
+  var ch2El=document.getElementById('chartLocations');
+  if(ch2El){var ch2=echarts.init(ch2El,theme);
+  ch2.setOption({tooltip:Object.assign({trigger:'axis',formatter:function(p){var co=locCos[locCos.length-1-p[0].dataIndex];return '<b>'+p[0].name+'</b><br>'+p[0].value+' locations'+(co&&co.estRevenue?'<br>$'+co.estRevenue+'M revenue':'')+'<br><span style="color:#98A2B3;font-size:10px">Click to view profile</span>'}},tipStyle),grid:{left:150,right:24,top:8,bottom:24},xAxis:{type:'value',axisLabel:{fontSize:11,color:isDark?'#8899AA':'#98A2B3'},splitLine:{lineStyle:{color:isDark?'#1e2e3e':'#F0F2F5'}},axisLine:{show:false}},yAxis:{type:'category',data:locCos.map(function(c){return c.name}).reverse(),axisLabel:{fontSize:11,color:isDark?'#c0c8d4':'#344054',width:140,overflow:'truncate'},axisLine:{show:false},axisTick:{show:false}},series:[{type:'bar',data:locCos.map(function(c){return c.filtLocs}).reverse(),itemStyle:{color:new echarts.graphic.LinearGradient(0,0,1,0,[{offset:0,color:'#C4B5FD'},{offset:1,color:'#7C5CFC'}]),borderRadius:[0,6,6,0]},barWidth:16,cursor:'pointer'}]});
   ch2.on('click',function(params){var idx=locCos.length-1-params.dataIndex;if(locCos[idx]){op(locCos[idx].id)}});
-  chartInstances.push(ch2);
+  chartInstances.push(ch2)}
+
   // 3. Business Type Donut
   var btCounts={};
   allCompanies.forEach(function(c){var t=CTL[c.companyType]||'Retail Dealer';btCounts[t]=(btCounts[t]||0)+1});
   var ch3El=document.getElementById('chartBizType');
   if(ch3El){var ch3=echarts.init(ch3El,theme);
-  ch3.setOption({tooltip:{trigger:'item',formatter:'{b}: {c} ({d}%)'},series:[{type:'pie',radius:['45%','72%'],itemStyle:{borderRadius:6,borderColor:isDark?'#16202e':'#fff',borderWidth:2},label:{show:true,fontSize:11},data:Object.entries(btCounts).map(function(e){return{name:e[0],value:e[1]}})}],color:['#7C5CFC','#3B82F6','#F59E0B','#475467','#EF4444','#10B981']});
+  ch3.setOption({tooltip:Object.assign({trigger:'item',formatter:'{b}<br><b>{c}</b> companies ({d}%)'},tipStyle),legend:{bottom:0,textStyle:{fontSize:11,color:isDark?'#8899AA':'#475467'},itemWidth:10,itemHeight:10,itemGap:12},series:[{type:'pie',radius:['48%','74%'],center:['50%','45%'],itemStyle:{borderRadius:8,borderColor:cardBg,borderWidth:3},label:{show:false},emphasis:{label:{show:true,fontSize:13,fontWeight:600}},data:Object.entries(btCounts).map(function(e){return{name:e[0],value:e[1]}})}],color:['#7C5CFC','#3B82F6','#F59E0B','#475467','#EF4444','#10B981']});
   chartInstances.push(ch3)}
-  // 4. Top 15 States by Company Count
+
+  // 4. Top 15 States Bar
   var stCounts={};
   allCompanies.forEach(function(c){c.states.forEach(function(s){stCounts[s]=(stCounts[s]||0)+1})});
   var stSorted=Object.entries(stCounts).sort(function(a,b){return b[1]-a[1]}).slice(0,15);
   var ch4El=document.getElementById('chartStates');
   if(ch4El){var ch4=echarts.init(ch4El,theme);
-  ch4.setOption({tooltip:{trigger:'axis'},grid:{left:50,right:30,top:10,bottom:30},xAxis:{type:'category',data:stSorted.map(function(e){return e[0]}),axisLabel:{fontSize:10}},yAxis:{type:'value',axisLabel:{fontSize:9}},series:[{type:'bar',data:stSorted.map(function(e){return e[1]}),itemStyle:{color:'#7C5CFC',borderRadius:[4,4,0,0]},barWidth:20}]});
+  ch4.setOption({tooltip:Object.assign({trigger:'axis'},tipStyle),grid:{left:44,right:24,top:8,bottom:24},xAxis:{type:'category',data:stSorted.map(function(e){return e[0]}),axisLabel:{fontSize:11,color:isDark?'#8899AA':'#475467'},axisLine:{lineStyle:{color:isDark?'#2a3a4e':'#E4E7EC'}},axisTick:{show:false}},yAxis:{type:'value',axisLabel:{fontSize:11,color:isDark?'#8899AA':'#98A2B3'},splitLine:{lineStyle:{color:isDark?'#1e2e3e':'#F0F2F5'}},axisLine:{show:false}},series:[{type:'bar',data:stSorted.map(function(e){return e[1]}),itemStyle:{color:new echarts.graphic.LinearGradient(0,0,0,1,[{offset:0,color:'#7C5CFC'},{offset:1,color:'#C4B5FD'}]),borderRadius:[6,6,0,0]},barWidth:24}]});
   chartInstances.push(ch4)}
-  /* Ensure charts resize to fit container after render */
-  setTimeout(function(){chartInstances.forEach(function(c){c.resize()})},50);
+
+  setTimeout(function(){chartInstances.forEach(function(c){try{c.resize()}catch(e){}})},100);
 }
 /* Single resize listener (not inside renderCharts to avoid duplicates) */
 window.addEventListener('resize',function(){chartInstances.forEach(function(c){try{c.resize()}catch(e){}})});
